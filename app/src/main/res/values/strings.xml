@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Redomat</string>
+
+    //LoginActivity
+        <string name="loginInputHintEmail">Unesite e-mail:</string>
+        <string name="loginInputHintPassword">Unesite lozinku:</string>
+        <string name="loginBtnLogin">Prijava</string>
+        <string name="loginBtnEnterALine">Uđite u red</string>
+        <string name="loginLinkForgotPassword">Zaboravili ste lozinku</string>
+        <string name="loginLinkRegister">Nemate račun?</string>
+    //'/'LoginActivity
+
+    //RegisterActivity
+        <string name="regInputHintName">Unesite ime</string>
+        <string name="regInputHintLastName">Unesite prezime</string>
+        <string name="regInputHintEmail">Unesite email</string>
+        <string name="regInputHintPassword">Unesite lozinku</string>
+        <string name="regBtnRegister">Registriraj se</string>
+        <string name="regLinkHaveAnAccount">Imate račun?</string>
+    //'/'RegisterActivity
+</resources>

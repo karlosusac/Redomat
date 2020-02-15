@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "107305704510",
+    "firebase_url": "https://redomat-a0bb2.firebaseio.com",
+    "project_id": "redomat-a0bb2",
+    "storage_bucket": "redomat-a0bb2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:107305704510:android:234a39587702353ca3c56f",
+        "android_client_info": {
+          "package_name": "com.redomat.improved"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "107305704510-j8k9aosucivpdenlslhuetsdln7nd8i7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.redomat.improved",
+            "certificate_hash": "8a3fe8b8afc4081f3b2a98c1c72aa9c3407c55ff"
+          }
+        },
+        {
+          "client_id": "107305704510-ijkm7tel7877i88gehq2j3nnnmlvj0h5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCb51fhn7lN45RE6q8vx3ZHm8o_OigNT3s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "107305704510-ijkm7tel7877i88gehq2j3nnnmlvj0h5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
