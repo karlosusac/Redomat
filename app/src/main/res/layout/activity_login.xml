@@ -83,6 +83,7 @@
                 android:layout_marginBottom="40dp"
                 android:gravity="center"
                 android:text="@string/loginLinkForgotPassword"
+                android:onClick="openForgotPasswordActivity"
                 android:textColor="@color/colorPrimary"
                 android:textSize="20sp" />
 

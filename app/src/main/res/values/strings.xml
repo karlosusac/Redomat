@@ -8,6 +8,9 @@
         <string name="loginBtnEnterALine">Uđite u red</string>
         <string name="loginLinkForgotPassword">Zaboravili ste lozinku</string>
         <string name="loginLinkRegister">Nemate račun?</string>
+
+        <string name="loginVertifyEmail">Verificirajte e-mail adresu</string>
+        <string name="loginWrongEmailAddress">Neispravna e-mail adresa ili lozinka</string>
     //'/'LoginActivity
 
     //RegisterActivity
@@ -20,14 +23,37 @@
 
         <string name="regInputErrorName">Unesite ime</string>
         <string name="regInputErrorLastName">Unesite prezime</string>
-        <string name="regInputErrorEmail">Unesite e-mail</string>
+        <string name="regInputErrorEmail">Unesite e-mail adresu</string>
         <string name="regInputErrorEmailValid">Unesite validnu e-mail adresu</string>
         <string name="regInputErrorPassword">Unesite lozinku</string>
         <string name="regInputErrorPasswordLength">Lozinka mora imati najmanje 6 znakova</string>
+
+        <string name="regInputEmailVertificationSent">E-mail sa verifikacijom je poslan na Vašu e-mail adresu</string>
     //'/'RegisterActivity
 
+    //MainMenuActivity
+        <string name="mainMenuNewRedomatArray">Napravite red</string>
+        <string name="mainMenuContinueRedomatArray">Nastavite sa redom</string>
+        <string name="mainMenuEnterRedomatArray">Uđite u red</string>
+    //'/'MainMenuActivity
+
+    //ForgotPasswordActivity
+        <string name="frgtPassInputEmail">Unesite e-mail</string>
+        <string name="frgtPassBtnConfirm">Potvrdi</string>
+        <string name="frgtPassInputErrorEmail">Unesite e-mail adresu</string>
+        <string name="frgtPassInputErrorEmailValid">Unesite validnu e-mail adresu</string>
+    <string name="frgtPassEmailNotRegistered">Uneseni e-mail nije registriran</string>
+    <string name="frgtPassResetPasswordEmailSent">E-mail za resetiranje lozinke je poslan</string>
+    //'/'ForgotPasswordActivity
+
+    //OptionsMenuDialog
+        <string name="optMenuProfile">Profil</string>
+        <string name="optMenuSettings">Postavke</string>
+        <string name="optMenuLogout">Odjava</string>
+    //'/'OptionsMenuDialog
+
     //ProgressDialog
-    <string name="progText">Učitavanje...</string>
+        <string name="progText">Učitavanje...</string>
     //'/'ProgressDialog
 
 

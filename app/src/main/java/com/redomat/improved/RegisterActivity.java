@@ -82,7 +82,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if(task.isSuccessful()){
-                                            Toast.makeText(RegisterActivity.this, "E-mail sa verifikacijom je poslan na Vašu e-mail adresu", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(RegisterActivity.this, getString(R.string.regInputEmailVertificationSent), Toast.LENGTH_LONG).show();
                                             closeProgressDialog();
                                             finish();
                                         } else {
@@ -193,7 +193,7 @@ public class RegisterActivity extends AppCompatActivity {
             regInputPassword.setError(getString(R.string.regInputErrorPassword));
         } else {
             if(password.length() < 6){
-                regInputPassword.setError("Lozinka mora imati najmanje 6 znakova");
+                regInputPassword.setError(getString(R.string.regInputErrorPasswordLength));
             } else {
                 regInputPassword.setError(null);
             }

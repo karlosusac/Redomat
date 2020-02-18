@@ -92,13 +92,13 @@ public class LoginActivity extends AppCompatActivity {
                                             updateUI(mAuth.getCurrentUser());
                                         } else {
                                             closeProgressDialog();
-                                            Toast.makeText(LoginActivity.this, "Verificirajte e-mail adresu", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(LoginActivity.this, getString(R.string.loginVertifyEmail), Toast.LENGTH_SHORT).show();
                                         }
 
                                     } else {
                                         // If sign in fails, display a message to the user.
                                         closeProgressDialog();
-                                        Toast.makeText(LoginActivity.this, "Neispravna e-mail adresa ili lozinka", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(LoginActivity.this, getString(R.string.loginWrongEmailAddress), Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
@@ -127,6 +127,14 @@ public class LoginActivity extends AppCompatActivity {
         showProgressDialog();
 
         Intent newIntent = new Intent(this, RegisterActivity.class);
+        startActivity(newIntent);
+    }
+
+    //Function to go to Register Acitivity - Used in XML as a link
+    public void openForgotPasswordActivity(View v){
+        showProgressDialog();
+
+        Intent newIntent = new Intent(this, ForgotPasswordActivity.class);
         startActivity(newIntent);
     }
 
