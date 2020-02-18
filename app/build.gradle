@@ -18,6 +18,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    //This me added
+    viewBinding.enabled = true
+    dataBinding.enabled = true
+    //-------------
 }
 
 dependencies {
@@ -32,5 +36,7 @@ dependencies {
 
     //Custom dependencies
     implementation 'gr.pantrif:easy-android-splash-screen:0.0.1'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
     apply plugin: 'com.google.gms.google-services'
 }

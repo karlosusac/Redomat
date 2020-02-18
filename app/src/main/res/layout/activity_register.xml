@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context=".RegisterActivity">
 
     <LinearLayout
@@ -23,64 +24,84 @@
             android:textSize="35sp"
             app:backgroundTint="@color/colorPrimary"/>
 
-        <EditText
-            android:id="@+id/editText"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/regInputName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="10dp"
-            android:ems="10"
-            android:hint="@string/regInputHintName"
-            android:inputType="textPersonName"
-            app:backgroundTint="@color/colorPrimary"
-            android:gravity="center"/>
+            app:errorEnabled="true"
+            >
 
-        <EditText
-            android:id="@+id/editText2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="10dp"
-            android:ems="10"
-            android:hint="@string/regInputHintLastName"
-            android:inputType="textPersonName"
-            app:backgroundTint="@color/colorPrimary"
-            android:gravity="center"/>
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/regInputHintName"
+                android:inputType="text"
+                android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/editText3"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/regInputLastName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="10dp"
-            android:ems="10"
-            android:hint="@string/regInputHintEmail"
-            android:inputType="textEmailAddress"
-            app:backgroundTint="@color/colorPrimary"
-            android:gravity="center"/>
+            app:errorEnabled="true"
+            >
 
-        <EditText
-            android:id="@+id/editText4"
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/regInputHintLastName"
+                android:inputType="text"
+                android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/regInputEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="10dp"
-            android:ems="10"
-            android:hint="@string/regInputHintPassword"
-            android:inputType="textPassword"
-            app:backgroundTint="@color/colorPrimary"
-            android:gravity="center"/>
+            app:errorEnabled="true"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/regInputHintEmail"
+                android:inputType="textEmailAddress"
+                android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/regInputPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:errorEnabled="true"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/regInputHintPassword"
+                android:inputType="textPassword"
+                android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:layout_marginBottom="10dp"
             android:text="@string/regBtnRegister"
             android:textColor="@color/colorWhite"
@@ -93,6 +114,7 @@
             android:text="@string/regLinkHaveAnAccount"
             android:textColor="@color/colorPrimary"
             android:textSize="20sp"
+            android:onClick="openLoginActivity"
             android:gravity="center"/>
 
     </LinearLayout>

@@ -18,4 +18,10 @@
         <string name="regBtnRegister">Registriraj se</string>
         <string name="regLinkHaveAnAccount">Imate račun?</string>
     //'/'RegisterActivity
+
+    //ProgressDialog
+    <string name="progText">Učitavanje...</string>
+    //'/'ProgressDialog
+
+
 </resources>

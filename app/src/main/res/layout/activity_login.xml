@@ -1,98 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".LoginActivity">
-
-    <LinearLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:padding="16dp"
+        tools:context=".LoginActivity">
 
-        <TextView
-            android:id="@+id/loginTitle"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="45dp"
-            android:gravity="center"
-            android:text="@string/app_name"
-            android:textColor="@color/colorPrimary"
-            android:textSize="35sp" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/loginInputEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="10dp"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="@string/loginInputHintEmail"
-            android:inputType="textEmailAddress"
-            app:backgroundTint="@color/colorPrimary" />
+            <TextView
+                android:id="@+id/loginTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="25dp"
+                android:gravity="center"
+                android:text="@string/app_name"
+                android:textColor="@color/colorPrimary"
+                android:textSize="35sp" />
 
-        <EditText
-            android:id="@+id/loginInputPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="@string/loginInputHintPassword"
-            android:inputType="textPassword"
-            app:backgroundTint="@color/colorPrimary" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/loginInputEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:errorEnabled="true"
+                >
 
-        <Button
-            android:id="@+id/loginBtnLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15sp"
-            android:layout_marginRight="15dp"
-            android:layout_marginBottom="10dp"
-            android:gravity="center"
-            android:onClick="@string/loginBtnLogin"
-            android:text="@string/loginBtnLogin"
-            android:textColor="#ffffff"
-            app:backgroundTint="@color/colorPrimary" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/loginInputHintEmail"
+                    android:inputType="textEmailAddress"
+                    android:gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/loginLinkForgotPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="40dp"
-            android:gravity="center"
-            android:text="@string/loginLinkForgotPassword"
-            android:textColor="@color/colorPrimary"
-            android:textSize="20sp" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/loginInputPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:errorEnabled="true"
+                >
 
-        <Button
-            android:id="@+id/loginBtnEnterALine"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginBottom="10dp"
-            android:text="@string/loginBtnEnterALine"
-            android:textColor="#ffffff"
-            app:backgroundTint="@color/colorPrimary" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/loginInputHintPassword"
+                    android:inputType="textPassword"
+                    android:gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/loginLinkRegister"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:gravity="center"
-            android:text="@string/loginLinkRegister"
-            android:textColor="@color/colorPrimary"
-            android:textSize="20sp" />
-    </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Button
+                android:id="@+id/loginBtnLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:onClick="@string/loginBtnLogin"
+                android:text="@string/loginBtnLogin"
+                android:textColor="@color/colorWhite"
+                app:backgroundTint="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/loginLinkForgotPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="40dp"
+                android:gravity="center"
+                android:text="@string/loginLinkForgotPassword"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/loginBtnEnterALine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="10dp"
+                android:text="@string/loginBtnEnterALine"
+                android:textColor="@color/colorWhite"
+                app:backgroundTint="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/loginLinkRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
+                android:text="@string/loginLinkRegister"
+                android:onClick="openRegisterActivity"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
