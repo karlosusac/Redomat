@@ -29,6 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:errorEnabled="true"
+            app:errorTextAppearance="@style/InputStuffErrorAppearance"
             >
 
             <com.google.android.material.textfield.TextInputEditText
@@ -47,6 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:errorEnabled="true"
+            app:errorTextAppearance="@style/InputStuffErrorAppearance"
             >
 
             <com.google.android.material.textfield.TextInputEditText
@@ -65,6 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:errorEnabled="true"
+            app:errorTextAppearance="@style/InputStuffErrorAppearance"
             >
 
             <com.google.android.material.textfield.TextInputEditText
@@ -83,6 +86,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:errorEnabled="true"
+            app:errorTextAppearance="@style/InputStuffErrorAppearance"
             >
 
             <com.google.android.material.textfield.TextInputEditText
@@ -97,7 +101,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/regBtnRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
@@ -108,7 +112,7 @@
             app:backgroundTint="@color/colorPrimary"/>
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/regLinkHaveAnAccount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/regLinkHaveAnAccount"

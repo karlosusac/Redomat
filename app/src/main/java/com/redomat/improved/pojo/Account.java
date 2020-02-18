@@ -1,8 +1,8 @@
 package com.redomat.improved.pojo;
 
 public class Account {
-    private String first_name;
-    private String last_name;
+    private String firstName;
+    private String LastName;
     private String email;
     private String password;
 
@@ -11,19 +11,19 @@ public class Account {
     }
 
     public Account(String first_name, String last_name, String email, String password) {
-        this.first_name = first_name;
-        this.last_name = last_name;
+        this.firstName = firstName;
+        this.LastName = LastName;
         this.email = email;
         this.password = password;
     }
 
     //GETTERS
-    public String getFirst_name() {
-        return first_name;
+    public String getfirstName() {
+        return firstName;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return LastName;
     }
 
     public String getEmail() {
@@ -35,12 +35,12 @@ public class Account {
     }
 
     //SETTERS
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setfirstName(String first_name) {
+        this.firstName = firstName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String last_name) {
+        this.LastName = LastName;
     }
 
     public void setEmail(String email) {

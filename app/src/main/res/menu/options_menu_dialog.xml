@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/optMenuProfile"
+        android:title="Profile"
+        />
+
+    <item
+        android:id="@+id/optMenuSettings"
+        android:title="Settings"
+        />
+
+    <item
+        android:id="@+id/optMenuLogout"
+        android:title="Logout"
+        />
+</menu>

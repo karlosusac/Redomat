@@ -2,8 +2,8 @@
     <string name="app_name">Redomat</string>
 
     //LoginActivity
-        <string name="loginInputHintEmail">Unesite e-mail:</string>
-        <string name="loginInputHintPassword">Unesite lozinku:</string>
+        <string name="loginInputHintEmail">Unesite e-mail</string>
+        <string name="loginInputHintPassword">Unesite lozinku</string>
         <string name="loginBtnLogin">Prijava</string>
         <string name="loginBtnEnterALine">Uđite u red</string>
         <string name="loginLinkForgotPassword">Zaboravili ste lozinku</string>
@@ -13,10 +13,17 @@
     //RegisterActivity
         <string name="regInputHintName">Unesite ime</string>
         <string name="regInputHintLastName">Unesite prezime</string>
-        <string name="regInputHintEmail">Unesite email</string>
+        <string name="regInputHintEmail">Unesite e-mail</string>
         <string name="regInputHintPassword">Unesite lozinku</string>
         <string name="regBtnRegister">Registriraj se</string>
         <string name="regLinkHaveAnAccount">Imate račun?</string>
+
+        <string name="regInputErrorName">Unesite ime</string>
+        <string name="regInputErrorLastName">Unesite prezime</string>
+        <string name="regInputErrorEmail">Unesite e-mail</string>
+        <string name="regInputErrorEmailValid">Unesite validnu e-mail adresu</string>
+        <string name="regInputErrorPassword">Unesite lozinku</string>
+        <string name="regInputErrorPasswordLength">Lozinka mora imati najmanje 6 znakova</string>
     //'/'RegisterActivity
 
     //ProgressDialog

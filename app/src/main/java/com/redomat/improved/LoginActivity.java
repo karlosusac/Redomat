@@ -54,8 +54,11 @@ public class LoginActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // Check if user is already signed in, if so just transfer him to MainMenuActivity
-        //currentUser = mAuth.getCurrentUser();
-        //updateUI(currentUser);
+        currentUser = mAuth.getCurrentUser();
+        if(currentUser != null && currentUser.isEmailVerified()){
+            updateUI(currentUser);
+        }
+
     }
 
     @Override
@@ -64,8 +67,6 @@ public class LoginActivity extends AppCompatActivity {
         mBiding = ActivityLoginBinding.inflate(getLayoutInflater());
         View loginView = mBiding.getRoot();
         setContentView(loginView);
-
-        //mBinding = DataBindingUtil.setContentView(this, R.layout.activity_login);
 
         //Layout elements
         //EditText
@@ -76,19 +77,34 @@ public class LoginActivity extends AppCompatActivity {
         logBtnLogin = mBiding.loginBtnLogin;
         logBtnEnterALine = mBiding.loginBtnEnterALine;
 
-        /*
-        final TextInputLayout logInputEmail = mBinding.loginInputEmail;
-
-        final Button logBtnLogin = mBinding.loginBtnLogin;
-
         logBtnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(LoginActivity.this, logInputEmail.getEditText().getText().toString(), Toast.LENGTH_SHORT).show();
+                if(!logInputEmail.getEditText().getText().toString().isEmpty() && !logInputPass.getEditText().getText().toString().isEmpty()){
+                    showProgressDialog();
+                    mAuth.signInWithEmailAndPassword(logInputEmail.getEditText().getText().toString(), logInputPass.getEditText().getText().toString())
+                            .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        // Sign in success, update UI with the signed-in user's information
+                                        if(mAuth.getCurrentUser().isEmailVerified()){
+                                            updateUI(mAuth.getCurrentUser());
+                                        } else {
+                                            closeProgressDialog();
+                                            Toast.makeText(LoginActivity.this, "Verificirajte e-mail adresu", Toast.LENGTH_SHORT).show();
+                                        }
+
+                                    } else {
+                                        // If sign in fails, display a message to the user.
+                                        closeProgressDialog();
+                                        Toast.makeText(LoginActivity.this, "Neispravna e-mail adresa ili lozinka", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                }
             }
         });
-
-         */
     }
 
     @Override

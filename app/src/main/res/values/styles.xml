@@ -34,4 +34,9 @@
         <item name="colorControlHighlight">@color/colorPrimary</item>
     </style>
 
+    <style name="InputStuffErrorAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorRed</item>
+        <item name="android:textSize">10dp</item>
+    </style>
+
 </resources>
