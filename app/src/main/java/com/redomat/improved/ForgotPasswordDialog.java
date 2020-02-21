@@ -32,9 +32,11 @@ public class ForgotPasswordDialog extends DialogFragment {
     private Button frgtPassDialogBtnConfirm;
     //--------------------------------
 
+    //Progress bar for the ForgotPasswordDialog - Different usage than ProgressBar class
     ProgressBar progressBar;
 
 
+    //CODE
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -106,7 +108,7 @@ public class ForgotPasswordDialog extends DialogFragment {
         return builder.create();
     }
 
-    //CUSTOM
+    //CUSTOM METHODS
     //Check if email is entered and if so, check if it is entered correctly and return the output
     public boolean validateEmail(String email){
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";

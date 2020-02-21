@@ -17,6 +17,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.redomat.improved.databinding.ActivityLoginBinding;
 import com.redomat.improved.databinding.ActivityMainMenuBinding;
 
+import static com.redomat.improved.pojo.ProgressBar.showProgressDialog;
+
 public class MainMenuActivity extends AppCompatActivity {
     //Firebase stuff
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -26,11 +28,6 @@ public class MainMenuActivity extends AppCompatActivity {
     //View Binding
     private ActivityMainMenuBinding mBiding;
     //---------------------------------
-
-
-    //Progress dialog
-    ProgressDialog progressDialog;
-    //-------------
 
     //CODE
     @Override
@@ -54,7 +51,7 @@ public class MainMenuActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()){
             case R.id.optMenuLogout:
-                showProgressDialog();
+                showProgressDialog(MainMenuActivity.this);
 
                 mAuth = FirebaseAuth.getInstance();
                 mAuth.getInstance().signOut();
@@ -75,21 +72,4 @@ public class MainMenuActivity extends AppCompatActivity {
 
     //CUSTOM METHODS
 
-    //Make new Progress dialog for loading screen
-    public void showProgressDialog(){
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setCancelable(false);
-        progressDialog.setCanceledOnTouchOutside(false);
-
-        progressDialog.show();
-        progressDialog.setContentView(R.layout.dialog_progress);
-        progressDialog.getWindow().setBackgroundDrawableResource(
-                android.R.color.transparent
-        );
-    }
-
-    //Close progress dialog
-    public void closeProgressDialog(){
-        progressDialog.dismiss();
-    }
 }

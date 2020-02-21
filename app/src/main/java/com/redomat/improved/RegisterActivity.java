@@ -21,6 +21,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.redomat.improved.databinding.ActivityRegisterBinding;
 import com.redomat.improved.pojo.Account;
+import com.redomat.improved.pojo.ProgressBar;
+
+import static com.redomat.improved.pojo.ProgressBar.closeProgressDialog;
 
 public class RegisterActivity extends AppCompatActivity {
     //Firebase stuff
@@ -39,10 +42,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     private Button regBtnRegister;
     //--------------------------------
-
-    //Progress dialog
-    ProgressDialog progressDialog;
-    //-------------
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +67,7 @@ public class RegisterActivity extends AppCompatActivity {
         regBtnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showProgressDialog();
+                ProgressBar.showProgressDialog(RegisterActivity.this);
 
                 //Validate user info, if everything is ok, make an account and create a new user
                 if(validateInputs()){
@@ -97,6 +96,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 });
                             } else {
                                 // If sign in fails
+                                Toast.makeText(RegisterActivity.this, getString(R.string.regInputErrorRegistrationFailed), Toast.LENGTH_SHORT).show();
                                 Log.d("regVertificationError", task.getException().getMessage());
                                 closeProgressDialog();
                             }
@@ -114,24 +114,6 @@ public class RegisterActivity extends AppCompatActivity {
         returnOkToLogin();
 
         finish();
-    }
-
-    //Make new Progress dialog for loading screen
-    public void showProgressDialog(){
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setCancelable(false);
-        progressDialog.setCanceledOnTouchOutside(false);
-
-        progressDialog.show();
-        progressDialog.setContentView(R.layout.dialog_progress);
-        progressDialog.getWindow().setBackgroundDrawableResource(
-                android.R.color.transparent
-        );
-    }
-
-    //Close progress dialog
-    public void closeProgressDialog(){
-        progressDialog.dismiss();
     }
 
     //Check if the information for the registration is all good

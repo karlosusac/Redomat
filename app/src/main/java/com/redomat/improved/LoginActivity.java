@@ -27,6 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.redomat.improved.databinding.ActivityLoginBinding;
 import com.redomat.improved.pojo.Account;
+import com.redomat.improved.pojo.ProgressBar;
 
 public class LoginActivity extends AppCompatActivity {
     //Firebase stuff
@@ -46,12 +47,6 @@ public class LoginActivity extends AppCompatActivity {
     private Button logBtnLogin;
     private Button logBtnEnterALine;
     //--------------------------------
-
-    //Progress dialog
-    ProgressDialog progressDialog;
-    //-------------
-
-
 
     //CODE
     @Override
@@ -85,7 +80,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(!logInputEmail.getEditText().getText().toString().isEmpty() && !logInputPass.getEditText().getText().toString().isEmpty()){
-                    showProgressDialog();
+                    ProgressBar.showProgressDialog(LoginActivity.this);
+
                     mAuth.signInWithEmailAndPassword(logInputEmail.getEditText().getText().toString(), logInputPass.getEditText().getText().toString())
                             .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                                 @Override
@@ -95,17 +91,21 @@ public class LoginActivity extends AppCompatActivity {
                                         if(mAuth.getCurrentUser().isEmailVerified()){
                                             openMainMenu(mAuth.getCurrentUser());
                                         } else {
-                                            closeProgressDialog();
+                                            ProgressBar.closeProgressDialog();
                                             Toast.makeText(LoginActivity.this, getString(R.string.loginVertifyEmail), Toast.LENGTH_SHORT).show();
                                         }
 
                                     } else {
                                         // If sign in fails, display a message to the user.
-                                        closeProgressDialog();
+                                        ProgressBar.closeProgressDialog();
                                         Toast.makeText(LoginActivity.this, getString(R.string.loginWrongEmailAddress), Toast.LENGTH_SHORT).show();
+                                        logInputEmail.setError(" ");
+                                        logInputPass.setError(getString(R.string.loginWrongEmailAddress));
                                     }
                                 }
                             });
+                } else {
+                    Toast.makeText(LoginActivity.this, "Neispravni podaci", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -120,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //If RegisterActivity has finished, close it and
         if(requestCode == 0 && resultCode == RESULT_OK){
-            closeProgressDialog();
+            ProgressBar.closeProgressDialog();
         }
     }
 
@@ -134,7 +134,7 @@ public class LoginActivity extends AppCompatActivity {
 
     //Function to go to Register Acitivity - Used in XML as a link
     public void openRegisterActivity(View v){
-        showProgressDialog();
+        ProgressBar.showProgressDialog(LoginActivity.this);
 
         Intent newIntent = new Intent(this, RegisterActivity.class);
         startActivityForResult(newIntent, 0);
@@ -145,23 +145,5 @@ public class LoginActivity extends AppCompatActivity {
     public void openForgotPasswordDialog(View view){
         ForgotPasswordDialog frgtPassDialog = new ForgotPasswordDialog();
         frgtPassDialog.show(getSupportFragmentManager(), "forgot_password_dialog");
-    }
-
-    //Make new Progress dialog for loading screen
-    public void showProgressDialog(){
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setCancelable(false);
-        progressDialog.setCanceledOnTouchOutside(false);
-
-        progressDialog.show();
-        progressDialog.setContentView(R.layout.dialog_progress);
-        progressDialog.getWindow().setBackgroundDrawableResource(
-                android.R.color.transparent
-        );
-    }
-
-    //Close progress dialog
-    public void closeProgressDialog(){
-        progressDialog.dismiss();
     }
 }
