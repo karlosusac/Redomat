@@ -3,7 +3,9 @@ package com.redomat.improved;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -63,13 +65,12 @@ public class RegisterActivity extends AppCompatActivity {
         regBtnRegister = mBiding.regBtnRegister;
 
         //CODE
-
         regBtnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 showProgressDialog();
 
+                //Validate user info, if everything is ok, make an account and create a new user
                 if(validateInputs()){
                     Account account = new Account(String.valueOf(regInputName.getEditText().getText()), String.valueOf(regInputLastName.getEditText().getText()), String.valueOf(regInputEmail.getEditText().getText()), String.valueOf(regInputPassword.getEditText().getText()));
 
@@ -77,22 +78,25 @@ public class RegisterActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
+                                // Sign in success
                                 mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if(task.isSuccessful()){
+                                            returnOkToLogin();
+
                                             Toast.makeText(RegisterActivity.this, getString(R.string.regInputEmailVertificationSent), Toast.LENGTH_LONG).show();
                                             closeProgressDialog();
                                             finish();
                                         } else {
+                                            Toast.makeText(RegisterActivity.this, getString(R.string.regInputErrorRegistrationFailed), Toast.LENGTH_SHORT).show();
                                             Log.d("regVertificationError", task.getException().getMessage());
                                             closeProgressDialog();
                                         }
                                     }
                                 });
                             } else {
-                                // If sign in fails, display a message to the user.
+                                // If sign in fails
                                 Log.d("regVertificationError", task.getException().getMessage());
                                 closeProgressDialog();
                             }
@@ -103,8 +107,12 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
+    //CUSTOM METHODS
+
     //Function to go back to Login Acitivity - Used in XML as a link
     public void openLoginActivity(View v){
+        returnOkToLogin();
+
         finish();
     }
 
@@ -213,5 +221,19 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    //Overriden onBackPressed so that it also sends ok code to LoginActivity(in this case), to notify that everything is ok and to close ProgressDialog
+    @Override
+    public void onBackPressed() {
+        returnOkToLogin();
 
+        super.onBackPressed();
+
+    }
+
+    //Reutn ok code to notify parent activity that everything went fine
+    public void returnOkToLogin(){
+        Intent regActivityReturnOk = new Intent();
+        regActivityReturnOk.putExtra("finishedSuccessfully", "OK");
+        setResult(Activity.RESULT_OK, regActivityReturnOk);
+    }
 }

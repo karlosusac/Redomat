@@ -27,6 +27,7 @@
         <string name="regInputErrorEmailValid">Unesite validnu e-mail adresu</string>
         <string name="regInputErrorPassword">Unesite lozinku</string>
         <string name="regInputErrorPasswordLength">Lozinka mora imati najmanje 6 znakova</string>
+        <string name="regInputErrorRegistrationFailed">Registracija nije uspijela</string>
 
         <string name="regInputEmailVertificationSent">E-mail sa verifikacijom je poslan na Vašu e-mail adresu</string>
     //'/'RegisterActivity
@@ -37,14 +38,18 @@
         <string name="mainMenuEnterRedomatArray">Uđite u red</string>
     //'/'MainMenuActivity
 
-    //ForgotPasswordActivity
+    //ForgotPasswordDialog
         <string name="frgtPassInputEmail">Unesite e-mail</string>
         <string name="frgtPassBtnConfirm">Potvrdi</string>
         <string name="frgtPassInputErrorEmail">Unesite e-mail adresu</string>
         <string name="frgtPassInputErrorEmailValid">Unesite validnu e-mail adresu</string>
-    <string name="frgtPassEmailNotRegistered">Uneseni e-mail nije registriran</string>
-    <string name="frgtPassResetPasswordEmailSent">E-mail za resetiranje lozinke je poslan</string>
-    //'/'ForgotPasswordActivity
+        <string name="frgtPassEmailNotRegistered">Unesena e-mail adresa nije registrirana</string>
+        <string name="frgtPassResetPasswordEmailSent">E-mail za resetiranje lozinke je poslan</string>
+
+        <string name="frgtPassDialogForgottenPassword">Zaboravljena lozinka</string>
+        <string name="frgtPassDialogMessage">Unesite e-mail adresu za slanje e-mail-a za ponovno postavljanje lozinke.</string>
+        <string name="frgtPassDialogCancel">Odustani</string>
+    //'/'ForgotPasswordDialog
 
     //OptionsMenuDialog
         <string name="optMenuProfile">Profil</string>

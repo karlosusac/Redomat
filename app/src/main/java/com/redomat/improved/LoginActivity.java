@@ -1,9 +1,11 @@
 package com.redomat.improved;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -50,13 +52,15 @@ public class LoginActivity extends AppCompatActivity {
     //-------------
 
 
+
+    //CODE
     @Override
     public void onStart() {
         super.onStart();
         // Check if user is already signed in, if so just transfer him to MainMenuActivity
         currentUser = mAuth.getCurrentUser();
         if(currentUser != null && currentUser.isEmailVerified()){
-            updateUI(currentUser);
+            openMainMenu(currentUser);
         }
 
     }
@@ -89,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
                                     if (task.isSuccessful()) {
                                         // Sign in success, update UI with the signed-in user's information
                                         if(mAuth.getCurrentUser().isEmailVerified()){
-                                            updateUI(mAuth.getCurrentUser());
+                                            openMainMenu(mAuth.getCurrentUser());
                                         } else {
                                             closeProgressDialog();
                                             Toast.makeText(LoginActivity.this, getString(R.string.loginVertifyEmail), Toast.LENGTH_SHORT).show();
@@ -107,15 +111,21 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        closeProgressDialog();
+    //CUSTOM METHODS
 
+    //If requestCode is from RegisterActivity and it says ok close ProgressDialog
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        //If RegisterActivity has finished, close it and
+        if(requestCode == 0 && resultCode == RESULT_OK){
+            closeProgressDialog();
+        }
     }
 
-    //Functions
-    public void  updateUI(FirebaseUser user){
+    //If user exists, open Main Menu with that user
+    public void  openMainMenu(FirebaseUser user){
         if(user != null){
             startActivity(new Intent(this, MainMenuActivity.class));
             finish();
@@ -127,15 +137,14 @@ public class LoginActivity extends AppCompatActivity {
         showProgressDialog();
 
         Intent newIntent = new Intent(this, RegisterActivity.class);
-        startActivity(newIntent);
+        startActivityForResult(newIntent, 0);
+        //startActivity(newIntent);
     }
 
-    //Function to go to Register Acitivity - Used in XML as a link
-    public void openForgotPasswordActivity(View v){
-        showProgressDialog();
-
-        Intent newIntent = new Intent(this, ForgotPasswordActivity.class);
-        startActivity(newIntent);
+    //Function to go to ForgotPassword Dialog - Used in XML as a link
+    public void openForgotPasswordDialog(View view){
+        ForgotPasswordDialog frgtPassDialog = new ForgotPasswordDialog();
+        frgtPassDialog.show(getSupportFragmentManager(), "forgot_password_dialog");
     }
 
     //Make new Progress dialog for loading screen

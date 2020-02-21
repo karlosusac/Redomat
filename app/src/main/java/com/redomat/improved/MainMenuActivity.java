@@ -32,6 +32,7 @@ public class MainMenuActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     //-------------
 
+    //CODE
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +41,7 @@ public class MainMenuActivity extends AppCompatActivity {
         setContentView(mainMenuView);
     }
 
+    //Options menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -67,6 +69,11 @@ public class MainMenuActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    // '\'Options menu -----------------------------------------------------------------------------
+
+
+    //CUSTOM METHODS
 
     //Make new Progress dialog for loading screen
     public void showProgressDialog(){
