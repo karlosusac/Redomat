@@ -98,21 +98,20 @@ public class LoginActivity extends AppCompatActivity {
                                     } else {
                                         // If sign in fails, display a message to the user.
                                         ProgressBar.closeProgressDialog();
-                                        Toast.makeText(LoginActivity.this, getString(R.string.loginWrongEmailAddress), Toast.LENGTH_SHORT).show();
                                         logInputEmail.setError(" ");
                                         logInputPass.setError(getString(R.string.loginWrongEmailAddress));
                                     }
                                 }
                             });
                 } else {
-                    Toast.makeText(LoginActivity.this, "Neispravni podaci", Toast.LENGTH_SHORT).show();
+                    logInputEmail.setError(" ");
+                    logInputPass.setError(getString(R.string.loginErrorEmptyInputs));
                 }
             }
         });
     }
 
     //CUSTOM METHODS
-
     //If requestCode is from RegisterActivity and it says ok close ProgressDialog
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -132,7 +131,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    //Function to go to Register Acitivity - Used in XML as a link
+    //Function to go to the Register Acitivity - Used in XML as a link
     public void openRegisterActivity(View v){
         ProgressBar.showProgressDialog(LoginActivity.this);
 
@@ -141,7 +140,7 @@ public class LoginActivity extends AppCompatActivity {
         //startActivity(newIntent);
     }
 
-    //Function to go to ForgotPassword Dialog - Used in XML as a link
+    //Function to go to the ForgotPassword Dialog - Used in XML as a link
     public void openForgotPasswordDialog(View view){
         ForgotPasswordDialog frgtPassDialog = new ForgotPasswordDialog();
         frgtPassDialog.show(getSupportFragmentManager(), "forgot_password_dialog");

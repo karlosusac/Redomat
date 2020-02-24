@@ -15,7 +15,7 @@
         android:weightSum="2">
 
         <Button
-            android:id="@+id/mainMenuNewRedomatArray"
+            android:id="@+id/mainMenuBtnNewRedomat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/mainMenuNewRedomatArray"
@@ -24,7 +24,7 @@
             android:layout_weight="1"/>
 
         <Button
-            android:id="@+id/mainMenuEnterRedomatArray"
+            android:id="@+id/mainMenuBtnEnterRedomat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorWhite"

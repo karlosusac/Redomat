@@ -18,12 +18,14 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.redomat.improved.databinding.ActivityRegisterBinding;
 import com.redomat.improved.pojo.Account;
 import com.redomat.improved.pojo.ProgressBar;
 
 import static com.redomat.improved.pojo.ProgressBar.closeProgressDialog;
+import static com.redomat.improved.pojo.ProgressBar.showProgressDialog;
 
 public class RegisterActivity extends AppCompatActivity {
     //Firebase stuff
@@ -67,11 +69,12 @@ public class RegisterActivity extends AppCompatActivity {
         regBtnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ProgressBar.showProgressDialog(RegisterActivity.this);
+                closeProgressDialog();
+                showProgressDialog(RegisterActivity.this);
 
                 //Validate user info, if everything is ok, make an account and create a new user
                 if(validateInputs()){
-                    Account account = new Account(String.valueOf(regInputName.getEditText().getText()), String.valueOf(regInputLastName.getEditText().getText()), String.valueOf(regInputEmail.getEditText().getText()), String.valueOf(regInputPassword.getEditText().getText()));
+                    final Account account = new Account(String.valueOf(regInputName.getEditText().getText()), String.valueOf(regInputLastName.getEditText().getText()), String.valueOf(regInputEmail.getEditText().getText()), String.valueOf(regInputPassword.getEditText().getText()));
 
                     mAuth.createUserWithEmailAndPassword(account.getEmail(), account.getPassword()).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -82,10 +85,13 @@ public class RegisterActivity extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if(task.isSuccessful()){
-                                            returnOkToLogin();
+                                            DatabaseReference accounts = db.getReference("Accounts");
+
+                                            accounts.child(mAuth.getCurrentUser().getUid()).setValue(account.AccountWithoutPassword(account));
 
                                             Toast.makeText(RegisterActivity.this, getString(R.string.regInputEmailVertificationSent), Toast.LENGTH_LONG).show();
                                             closeProgressDialog();
+                                            returnOkToLogin();
                                             finish();
                                         } else {
                                             Toast.makeText(RegisterActivity.this, getString(R.string.regInputErrorRegistrationFailed), Toast.LENGTH_SHORT).show();
@@ -96,7 +102,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 });
                             } else {
                                 // If sign in fails
-                                Toast.makeText(RegisterActivity.this, getString(R.string.regInputErrorRegistrationFailed), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegisterActivity.this, getString(R.string.regErrorEmailExists), Toast.LENGTH_SHORT).show();
                                 Log.d("regVertificationError", task.getException().getMessage());
                                 closeProgressDialog();
                             }
@@ -109,7 +115,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     //CUSTOM METHODS
 
-    //Function to go back to Login Acitivity - Used in XML as a link
+    //Function to go back to the Login Acitivity - Used in XML as a link
     public void openLoginActivity(View v){
         returnOkToLogin();
 
