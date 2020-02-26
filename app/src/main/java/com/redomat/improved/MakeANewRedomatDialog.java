@@ -73,19 +73,7 @@ public class MakeANewRedomatDialog extends DialogFragment {
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
 
-                if(makeANewRedomatInputName.getEditText().getText().toString().isEmpty()){
-                    makeANewRedomatInputName.setError(getString(R.string.makeANewRedomatEnterRedomatName));
-                    progressBar.setVisibility(View.GONE);
-                } else {
-                    /*
-                    Intent i = new Intent(getContext(), RedomatAdmin.class);
-                    startActivity(i);
-                     */
-
-                    listener.sendRedomatName(makeANewRedomatInputName.getEditText().getText().toString());
-                    dismiss();
-                    progressBar.setVisibility(View.GONE);
-                }
+                validateRedomatLineName(makeANewRedomatInputName.getEditText().getText().toString());
             }
         });
 
@@ -104,6 +92,21 @@ public class MakeANewRedomatDialog extends DialogFragment {
     }
 
     public interface MakeANewRedomatDialogListener{
-        void sendRedomatName(String redomatName);
+        void makeNewRedomat(String redomatName);
+    }
+
+    //Check if redomat name is
+    private void validateRedomatLineName(String name){
+        if(name.isEmpty()){
+            makeANewRedomatInputName.setError(getString(R.string.makeANewRedomatEnterRedomatName));
+            progressBar.setVisibility(View.GONE);
+        } else  if(name.length() > 25){
+            makeANewRedomatInputName.setError("Uneseno ime je predugo");
+            progressBar.setVisibility(View.GONE);
+        } else {
+            listener.makeNewRedomat(makeANewRedomatInputName.getEditText().getText().toString());
+            dismiss();
+            progressBar.setVisibility(View.GONE);
+        }
     }
 }

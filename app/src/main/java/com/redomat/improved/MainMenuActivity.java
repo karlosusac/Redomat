@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,6 +37,8 @@ public class MainMenuActivity extends AppCompatActivity implements MakeANewRedom
 
     private DatabaseReference user = db.getReference("Accounts").child(mAuth.getCurrentUser().getUid());
     private DatabaseReference redomat;
+    private DatabaseReference allRedomatsRef = db.getReference("Redomats");
+    private DatabaseReference userMadeRedomatsCount = user.child("numOfMadeRedomats");
     private boolean userRedomatAdmin;
 
     //View Binding
@@ -49,7 +52,7 @@ public class MainMenuActivity extends AppCompatActivity implements MakeANewRedom
 
     //RedomatAdminActivity
     private Line activeRedomat;
-    String pin;
+    private String pin;
     //---------------------
 
 
@@ -155,25 +158,68 @@ public class MainMenuActivity extends AppCompatActivity implements MakeANewRedom
 
 
     //CUSTOM METHODS
-    @Override
-    public void sendRedomatName(String redomatName) {
-        showProgressDialog(MainMenuActivity.this);
-        String pin = Line.generatePin();
 
-        Line newRedomat = new Line(redomatName, "Active");
+    //MakeANewRedomatDialog will send pin and redomatName here and make new Redomat Line
+    @Override
+    public void makeNewRedomat(String redomatName) {
+        showProgressDialog(MainMenuActivity.this);
+        //TODO Generirani pin nije unique, potreban hitno FIX - DONE
+        //TODO Dodati monitor koji gleda dali ima interneta, ako ne traži ga miško
+        //TODO Limitati unos imena za ime reda na 25 zankova (26 je maximum)
+
+        returnUniquePin();
+
+        Line newRedomat = new Line(redomatName, "active");
 
         user.child("redomat").setValue(pin);
         redomat = db.getReference("Redomats").child(pin);
         redomat.setValue(newRedomat);
+        incrementNumOfMadeRedomats();
 
 
         openRedomatAdmin(pin, newRedomat);
     }
 
+    //Open RedomatAdminActivity with pin and data, used when creating a new Redomat Line and when continuing Redomat Line
     private void openRedomatAdmin(String pin, Line newRedomat){
         Intent redomatAdminIntent = new Intent(this, RedomatAdmin.class);
         redomatAdminIntent.putExtra("pin", pin);
         redomatAdminIntent.putExtra("redomat", newRedomat);
         startActivity(redomatAdminIntent);
+    }
+
+    //When the user creates new Redomat Line take count of Redomats stat on his profile and increment it by 1
+    private void incrementNumOfMadeRedomats(){
+        userMadeRedomatsCount.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int countOfMadeRedomats = Integer.valueOf(String.valueOf(dataSnapshot.getValue())) + 1;
+                userMadeRedomatsCount.setValue(countOfMadeRedomats);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    //Generate and set unique pin value for creating a new Redomat Line
+    private void returnUniquePin(){
+        pin = Line.generatePin();
+
+        allRedomatsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                while(dataSnapshot.child(pin).exists()){
+                    pin = Line.generatePin();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(MainMenuActivity.this, "Došlo je do pogreške.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

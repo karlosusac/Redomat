@@ -19,6 +19,8 @@
             android:id="@+id/newRedomatInputName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:counterEnabled="true"
+            app:counterMaxLength="25"
             app:errorEnabled="true"
             app:errorTextAppearance="@style/InputStuffErrorAppearance"
             >

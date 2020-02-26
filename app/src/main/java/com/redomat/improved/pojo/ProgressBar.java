@@ -23,6 +23,16 @@ public class ProgressBar {
         );
     }
 
+    //Getters
+    public static ProgressDialog getProgressDialog() {
+        return progressDialog;
+    }
+
+    //Setters
+    public static void setProgressDialog(ProgressDialog progressDialog) {
+        ProgressBar.progressDialog = progressDialog;
+    }
+
     //Close progress dialog
     static public void closeProgressDialog(){
         progressDialog.dismiss();

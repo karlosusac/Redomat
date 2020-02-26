@@ -6,8 +6,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -27,14 +31,16 @@ import com.redomat.improved.databinding.ActivityLoginBinding;
 import com.redomat.improved.databinding.ActivityRedomatAdminBinding;
 import com.redomat.improved.pojo.AccountLine;
 import com.redomat.improved.pojo.Line;
+import com.redomat.improved.pojo.ProgressBar;
 
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.List;
 
 import static com.redomat.improved.pojo.ProgressBar.closeProgressDialog;
 import static com.redomat.improved.pojo.ProgressBar.showProgressDialog;
 
-public class RedomatAdmin extends AppCompatActivity {
+public class RedomatAdmin extends AppCompatActivity implements PauseDialog.PauseDialogListener {
 
     //Firebase stuff
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -46,7 +52,10 @@ public class RedomatAdmin extends AppCompatActivity {
     private DatabaseReference activeRedomatLineRef;
     private DatabaseReference activeRedomatLenRef;
     private DatabaseReference activeRedomatCurrentPositionRef;
+    private DatabaseReference activeRedomatStatusRef;
     private DatabaseReference getActiveRedomatNextPersonTimeRef;
+
+    private boolean isRedomatLinePaused;
     //------------------------------------------------------------
 
     //View Binding
@@ -79,6 +88,9 @@ public class RedomatAdmin extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        closeProgressDialog();
+        showProgressDialog(RedomatAdmin.this);
+
         //MainMenuActivityVariables
         pin = getIntent().getStringExtra("pin");
         redomat = (Line) getIntent().getSerializableExtra("redomat");
@@ -94,7 +106,9 @@ public class RedomatAdmin extends AppCompatActivity {
          activeRedomatRef = db.getReference("Redomats").child(pin);
          activeRedomatLineRef = activeRedomatRef.child("redomatLine");
          activeRedomatLenRef = activeRedomatRef.child("redomatLength");
+         activeRedomatStatusRef = activeRedomatRef.child("status");
          activeRedomatCurrentPositionRef = activeRedomatRef.child("currentPosition");
+        activeRedomatStatusRef = activeRedomatRef.child("status");
         //------------------------------------------------------------
 
         mBinding = ActivityRedomatAdminBinding.inflate(getLayoutInflater());
@@ -115,32 +129,56 @@ public class RedomatAdmin extends AppCompatActivity {
         rdmaAdminRedomatPinValue = mBinding.rdmaAdminRedomatPinValue;
         //------------------------------
 
-
         //Settings up starting redomat status info
         rdmaAdminCurrentPositionValue.setText(redomat.getCurrentPosition().toString());
         rdmaAdminRedomatLengthValue.setText(redomat.getRedomatLength().toString());
         rdmaAdminRedomatPinValue.setText(pin);
 
-        Log.d("Ovo", redomat.getCurrentPosition().toString());
-
-
-        //Close progress dialog from the main menu, this is here beacuse I can't overlap progress dialogs as they are static properties
-        closeProgressDialog();
-
-        //Value Event Listeners
-
         //Listen for when new users are added, increment the line len counter
         listenForNewUsers();
+        //--------------------------
+
+        //Listen for Redomat status
+        listenForRedomatStatusChange();
         //--------------------------
 
         rdmaAdminBtnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //If the RedomatLine is pause and admin clicked 'next' button, unpause the RedomatLine
+                if(isRedomatLinePaused == true){
+                    pauseAndUnpauseRedomatLine();
+                }
+
                 if(redomat.getCurrentPosition() < redomat.getRedomatLength()){
-                    redomat.incrementRedomatCurrentPosition();
-                    Toast.makeText(RedomatAdmin.this, redomat.getRedomatLine().get(redomat.getCurrentPosition()).getStatus(), Toast.LENGTH_SHORT).show();
-                    activeRedomatCurrentPositionRef.setValue(redomat.getCurrentPosition());
-                    rdmaAdminCurrentPositionValue.setText(redomat.getCurrentPosition().toString());
+                    if(!(redomat.getRedomatLine().get(redomat.getCurrentPosition() + 1).getStatus().equals("active"))){
+                        Integer counterOfInactiveUsers = 0;
+                        String lastRedomatUserIsInactiveMessage = "";
+                        redomat.incrementRedomatCurrentPosition();
+
+                        while(!(redomat.getRedomatLine().get(redomat.getCurrentPosition()).getStatus().equals("active"))){
+                            //If all remaining users have left an Redomat Line stop at the last one, and set the following message
+                            if(redomat.getCurrentPosition() == redomat.getRedomatLength()){
+                                counterOfInactiveUsers++;
+                                lastRedomatUserIsInactiveMessage = ", te je trenutni korisnik također izašao iz reda";
+                                break;
+                            }
+                            counterOfInactiveUsers++;
+                            redomat.incrementRedomatCurrentPosition();
+                        }
+
+                        if(counterOfInactiveUsers == 1){
+                            Toast.makeText(RedomatAdmin.this, "Preskočen je " + counterOfInactiveUsers + " korisnik koji je izašao iz reda" +  lastRedomatUserIsInactiveMessage + ".", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(RedomatAdmin.this, "Preskočeno je " + counterOfInactiveUsers + " korisnika koji su izašli iz reda" + lastRedomatUserIsInactiveMessage + ".", Toast.LENGTH_LONG).show();
+                        }
+
+
+                        activeRedomatCurrentPositionRef.setValue(redomat.getCurrentPosition());
+                        rdmaAdminCurrentPositionValue.setText(redomat.getCurrentPosition().toString());
+                    } else {
+                        nextUser();
+                    }
                 }
             }
         });
@@ -149,9 +187,9 @@ public class RedomatAdmin extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final AlertDialog destoryRedomat = new AlertDialog.Builder(RedomatAdmin.this)
-                        .setTitle("Uništavanje reda?")
-                        .setMessage("Dali ste sigurni da želite uništiti red?\n[Ova akcija se ne može poništiti]")
-                        .setPositiveButton("Uništi", new DialogInterface.OnClickListener() {
+                        .setTitle(getString(R.string.rdmaAdminBtnDestroyTitle))
+                        .setMessage(getString(R.string.rdmaAdminBtnDestroyMessage))
+                        .setPositiveButton(getString(R.string.rdmaAdminBtnDestroy), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 showProgressDialog(RedomatAdmin.this);
@@ -161,7 +199,7 @@ public class RedomatAdmin extends AppCompatActivity {
                                 closeProgressDialog();
                             }
                         })
-                        .setNegativeButton("Odustani", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(getString(R.string.rdmaAdminBtnDestroyCancel), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //Do nothing
@@ -180,8 +218,6 @@ public class RedomatAdmin extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         long index = dataSnapshot.getChildrenCount();
                         activeRedomatLineRef.child(String.valueOf(index + 1)).setValue(new AccountLine("AQdHVYgh7tfb81D12Sx986nk4bJ2"));
-
-
                     }
 
                     @Override
@@ -189,6 +225,14 @@ public class RedomatAdmin extends AppCompatActivity {
 
                     }
                 });
+            }
+        });
+
+
+        rdmaAdminBtnPause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pauseAndUnpauseRedomatLine();
             }
         });
     }
@@ -248,4 +292,95 @@ public class RedomatAdmin extends AppCompatActivity {
             }
         });
     }
+
+    public void nextUser(){
+        redomat.incrementRedomatCurrentPosition();
+        Toast.makeText(RedomatAdmin.this, redomat.getRedomatLine().get(redomat.getCurrentPosition()).getStatus(), Toast.LENGTH_SHORT).show();
+        activeRedomatCurrentPositionRef.setValue(redomat.getCurrentPosition());
+        rdmaAdminCurrentPositionValue.setText(redomat.getCurrentPosition().toString());
+    }
+
+    //If Redomat Line has been pause this method will be triggered, and it updates status
+    @Override
+    public void pause(String date) {
+        activeRedomatStatusRef.setValue(date);
+    }
+
+    private void listenForRedomatStatusChange(){
+        activeRedomatStatusRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    if(dataSnapshot.getValue().equals("active")){
+                        rdmaAdminBtnPause.setText(getString(R.string.rdmaAdminBtnPause));
+                        isRedomatLinePaused = false;
+                    } else {
+                        rdmaAdminBtnPause.setText(getString(R.string.rdmaAdminBtnActivate));
+                        isRedomatLinePaused = true;
+                    }
+
+                    //CloseProgressDialog for RedomatAdmin, this is here to hold progressDialog opened untill all data is loaded but I had an
+                    // issue where button would update in realtime and this would perhaps cause an error if internet connection was really slow
+                    if(ProgressBar.getProgressDialog() != null){
+                        closeProgressDialog();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void pauseAndUnpauseRedomatLine(){
+        activeRedomatStatusRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue().toString().equals("active")){
+                    PauseDialog pauseDialog = new PauseDialog();
+                    pauseDialog.show(getSupportFragmentManager(), "pause");
+                } else {
+                    activeRedomatStatusRef.setValue("active");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    //Options menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options_menu_dialog, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.optMenuLogout:
+                showProgressDialog(RedomatAdmin.this);
+
+                mAuth = FirebaseAuth.getInstance();
+                mAuth.getInstance().signOut();
+
+                Intent i = new Intent(RedomatAdmin.this, LoginActivity.class);
+                startActivity(i);
+                finish();
+
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    // '\'Options menu -----------------------------------------------------------------------------
 }

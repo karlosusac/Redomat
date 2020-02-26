@@ -47,6 +47,13 @@
     <string name="rdmaAdminBtnPause">Pauziraj</string>
     <string name="rdmaAdminBtnNext">Sljedeća osoba</string>
     <string name="rdmaAdminBtnDestroy">Uništi</string>
+    <string name="rdmaAdminBtnActivate">Aktiviraj</string>
+
+    <string name="rdmaAdminBtnDestroyTitle">Uništavanje reda?</string>
+    <string name="rdmaAdminBtnDestroyMessage">Dali ste sigurni da želite uništiti red?
+[Ova akcija se ne može poništiti]</string>
+    <string name="rdmaAdminBtnDestroyCancel">Odustani</string>
+
     //'/'RedomatAdminActivity
 
     //ForgotPasswordDialog
@@ -62,16 +69,22 @@
     <string name="frgtPassDialogCancel">Odustani</string>
     //'/'ForgotPasswordDialog
 
-    //MakeANewRedomat
+    //MakeANewRedomatDialog
     <string name="makeANewRedomatInputName">Unesite ime reda</string>
     <string name="makeANewRedomatBtnConfirm">Potvrdi</string>
     <string name="makeANewRedomatCancel">Odustani</string>
     <string name="makeANewRedomatTitle">Kreiranje novog reda</string>
     <string name="makeANewRedomatEnterRedomatName">Morate unjeti ime reda</string>
-    //'/'MakeANewRedomat
+    //'/'MakeANewRedomatDialog
+
+    //MakeANewRedomatDialog
+    <string name="pauseDialogTitle">Pauziranje reda</string>
+    <string name="pauseDialogCancel">Odustani</string>
+    <string name="pauseDialogError">Došlo je do pogreške</string>
+    //'/'MakeANewRedomatDialog
 
     //OptionsMenuDialog
-    <string name="optMenuProfile">Profil</string>
+    <string name="optMenuStatistics">Statistika</string>
     <string name="optMenuSettings">Postavke</string>
     <string name="optMenuLogout">Odjava</string>
     //'/'OptionsMenuDialog
