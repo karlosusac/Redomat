@@ -24,6 +24,8 @@ android {
     //-------------
 }
 
+def preference_version = '1.1.0'
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.0.2'
@@ -39,4 +41,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
     apply plugin: 'com.google.gms.google-services'
+
+    //Jetpack-preference
+    implementation "androidx.preference:preference:$preference_version"
 }

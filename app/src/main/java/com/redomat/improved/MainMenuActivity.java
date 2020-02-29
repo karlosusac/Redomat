@@ -149,6 +149,15 @@ public class MainMenuActivity extends AppCompatActivity implements MakeANewRedom
 
                 return true;
 
+            case R.id.optMenuStatistics:
+                StatisticsDialog statDialog = new StatisticsDialog();
+                statDialog.show(getSupportFragmentManager(), "stat_dialog");
+                return true;
+
+            case R.id.optMenuSettings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -163,9 +172,7 @@ public class MainMenuActivity extends AppCompatActivity implements MakeANewRedom
     @Override
     public void makeNewRedomat(String redomatName) {
         showProgressDialog(MainMenuActivity.this);
-        //TODO Generirani pin nije unique, potreban hitno FIX - DONE
         //TODO Dodati monitor koji gleda dali ima interneta, ako ne traži ga miško
-        //TODO Limitati unos imena za ime reda na 25 zankova (26 je maximum)
 
         returnUniquePin();
 

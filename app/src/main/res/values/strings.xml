@@ -77,11 +77,27 @@
     <string name="makeANewRedomatEnterRedomatName">Morate unjeti ime reda</string>
     //'/'MakeANewRedomatDialog
 
-    //MakeANewRedomatDialog
+    //PauseDialog
+    <string name="settingsChngNameAndLastnameInputNameHint">Unesite ime</string>
+    <string name="settingsChngNameAndLastnameInputLastnameHint">Unesite prezime</string>
+    <string name="settingsChngNameAndLastnameBtnChange">Promjeni</string>
+    <string name="settingsChngNameAndLastnameTitle">Promjenite ime i prezime</string>
+    <string name="settingsChngNameAndLastnameCancel">Odustani</string>
+    <string name="settingsChngNameAndLastnameInputErrorEmpty">Polje ne može ostati prazno</string>
+    //'/'PauseDialog
+
+    //PauseDialog
     <string name="pauseDialogTitle">Pauziranje reda</string>
     <string name="pauseDialogCancel">Odustani</string>
     <string name="pauseDialogError">Došlo je do pogreške</string>
-    //'/'MakeANewRedomatDialog
+    //'/'PauseDialog
+
+    //StatisticsDialog
+    <string name="statDialogNumOfMadeRedomats">Kreiranih redova:</string>
+    <string name="statDialogNumOfParticipatedRedoats">Sudjelovanih redova:</string>
+    <string name="statDialogNumOfLeftRedomats">Napuštenih redova:</string>
+    <string name="statDialogCloseDialog">Napusti</string>
+    //'/'PauseDialog
 
     //OptionsMenuDialog
     <string name="optMenuStatistics">Statistika</string>
