@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".RedomatUserActivity"
+        android:padding="16dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/rdmaUserTextUserPosition"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="25sp"
+                android:layout_height="wrap_content"
+                android:text="@string/rdmaUserTextUserPosition"
+                android:layout_marginTop="10dp"
+                />
+
+            <TextView
+                android:id="@+id/rdmaUserTextUserPositionValue"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:textColor="@color/colorRed"
+                android:textSize="20sp"
+                android:layout_height="wrap_content"
+                />
+
+
+
+
+
+            <TextView
+                android:id="@+id/rdmaUserSInfront"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="25sp"
+                android:layout_height="wrap_content"
+                android:text="@string/rdmaUserSInfront"
+                android:layout_marginTop="15dp"
+                />
+
+            <TextView
+                android:id="@+id/rdmaUserSInfrontValue"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:textColor="@color/colorRed"
+                android:textSize="20sp"
+                android:layout_height="wrap_content"
+                />
+
+
+
+            <TextView
+                android:id="@+id/rdmaUserAvgTime"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="25sp"
+                android:layout_height="wrap_content"
+                android:text="@string/rdmaUserAvgTime"
+                android:layout_marginTop="15dp"
+                />
+
+
+            <TextView
+                android:id="@+id/rdmaUserAvgTimeValue"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:textColor="@color/colorRed"
+                android:textSize="20sp"
+                android:layout_height="wrap_content"
+                />
+
+
+
+
+            <TextView
+                android:id="@+id/rdmaUserRedomatStatus"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="25sp"
+                android:layout_height="wrap_content"
+                android:text="@string/rdmaUserRedomatStatus"
+                android:layout_marginTop="15dp"
+                />
+
+
+            <TextView
+                android:id="@+id/rdmaUserRedomatStatusValue"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:textColor="@color/colorRed"
+                android:textSize="20sp"
+                android:layout_height="wrap_content"
+                />
+
+            <Button
+                android:id="@+id/rdmaUserBtnLeave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:textColor="@color/colorWhite"
+                android:text="@string/rdmaUserBtnLeave"
+                android:layout_marginTop="15dp"
+                />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

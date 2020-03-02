@@ -293,6 +293,8 @@ public class SettingsFragment extends PreferenceFragment {
                         settingsDialogChangePassConNewPass.setError("Nove lozinke se ne podudaraju");
                         settingsDialogChangePassProgressBar.setVisibility(View.GONE);
                     }
+                } else {
+                    settingsDialogChangePassProgressBar.setVisibility(View.GONE);
                 }
             }
         });

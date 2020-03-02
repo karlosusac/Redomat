@@ -53,8 +53,26 @@
     <string name="rdmaAdminBtnDestroyMessage">Dali ste sigurni da želite uništiti red?
 [Ova akcija se ne može poništiti]</string>
     <string name="rdmaAdminBtnDestroyCancel">Odustani</string>
-
     //'/'RedomatAdminActivity
+
+    //RedomatUser
+    <string name="rdmaUserTextUserPosition">Vaša pozicija:</string>
+    <string name="rdmaUserSInfront">Korisnika ispred Vas:</string>
+    <string name="rdmaUserAvgTime">Vrijeme do Vas:</string>
+    <string name="rdmaUserBtnLeave">Napustite red</string>
+    <string name="rdmaUserRedomatStatus">Status reda:</string>
+    <string name="rdmaUserRedomatNextPersonTimeDefault">Izračunavanje...</string>
+    <string name="rdmaUserRedomatNextPersonLessThanMinLeft">~1 min</string>
+    //'/'RedomatUser
+
+    //RedomatUserPausedDialog
+    <string name="rdmaUserPasedDialogTitle">Red pauziran do</string>
+    //'/'RedomatUserPausedDialog
+
+    //Notifikacije
+    <string name="notYouAreUpText">Vi ste na redu.</string>
+    //'/'Notifikacije
+
 
     //ForgotPasswordDialog
     <string name="frgtPassInputEmail">Unesite e-mail</string>
@@ -77,14 +95,23 @@
     <string name="makeANewRedomatEnterRedomatName">Morate unjeti ime reda</string>
     //'/'MakeANewRedomatDialog
 
-    //PauseDialog
+    //Settings
     <string name="settingsChngNameAndLastnameInputNameHint">Unesite ime</string>
     <string name="settingsChngNameAndLastnameInputLastnameHint">Unesite prezime</string>
     <string name="settingsChngNameAndLastnameBtnChange">Promjeni</string>
     <string name="settingsChngNameAndLastnameTitle">Promjenite ime i prezime</string>
     <string name="settingsChngNameAndLastnameCancel">Odustani</string>
     <string name="settingsChngNameAndLastnameInputErrorEmpty">Polje ne može ostati prazno</string>
-    //'/'PauseDialog
+    //'/'Settings
+
+    //EnterRedomat
+    <string name="enterRedomatTitle">Uđite u red</string>
+    <string name="enterRedomatInputHint">Unesite pin</string>
+    <string name="enterRedomatBtnConfirm">Potvrdi</string>
+    <string name="enterRedomatInputErrorEmpty">Unesite pin</string>
+    <string name="enterRedomatInputErrorNotExists">Pin ne postoji</string>
+    <string name="enterRedomatCancel">Odustani</string>
+    //'/'EnterRedomat
 
     //PauseDialog
     <string name="pauseDialogTitle">Pauziranje reda</string>
@@ -97,7 +124,7 @@
     <string name="statDialogNumOfParticipatedRedoats">Sudjelovanih redova:</string>
     <string name="statDialogNumOfLeftRedomats">Napuštenih redova:</string>
     <string name="statDialogCloseDialog">Napusti</string>
-    //'/'PauseDialog
+    //'/'StatisticsDialog
 
     //OptionsMenuDialog
     <string name="optMenuStatistics">Statistika</string>

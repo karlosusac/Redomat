@@ -54,6 +54,7 @@ public class RedomatAdmin extends AppCompatActivity implements PauseDialog.Pause
     private DatabaseReference activeRedomatCurrentPositionRef;
     private DatabaseReference activeRedomatStatusRef;
     private DatabaseReference getActiveRedomatNextPersonTimeRef;
+    private DatabaseReference redomatNextPersonTimeRef;
 
     private boolean isRedomatLinePaused;
     //------------------------------------------------------------
@@ -84,6 +85,9 @@ public class RedomatAdmin extends AppCompatActivity implements PauseDialog.Pause
     private Line redomat;
     //---------------------------
 
+    private long avgWaitingTime = 0;
+    private boolean redomatHasJustStarted = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,6 +113,7 @@ public class RedomatAdmin extends AppCompatActivity implements PauseDialog.Pause
          activeRedomatStatusRef = activeRedomatRef.child("status");
          activeRedomatCurrentPositionRef = activeRedomatRef.child("currentPosition");
         activeRedomatStatusRef = activeRedomatRef.child("status");
+        redomatNextPersonTimeRef = db.getReference("Redomats").child(pin).child("nextPersonTime");
         //------------------------------------------------------------
 
         mBinding = ActivityRedomatAdminBinding.inflate(getLayoutInflater());
@@ -149,6 +154,8 @@ public class RedomatAdmin extends AppCompatActivity implements PauseDialog.Pause
                 if(isRedomatLinePaused == true){
                     pauseAndUnpauseRedomatLine();
                 }
+
+                waitingTimeSetter();
 
                 if(redomat.getCurrentPosition() < redomat.getRedomatLength()){
                     if(!(redomat.getRedomatLine().get(redomat.getCurrentPosition() + 1).getStatus().equals("active"))){
@@ -192,8 +199,11 @@ public class RedomatAdmin extends AppCompatActivity implements PauseDialog.Pause
                         .setPositiveButton(getString(R.string.rdmaAdminBtnDestroy), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                showProgressDialog(RedomatAdmin.this);
 
+                                showProgressDialog(RedomatAdmin.this);
+                                rdmaAdminBtnPause.setEnabled(false);
+                                rdmaAdminBtnNext.setEnabled(false);
+                                rdmaAdminBtnDestory.setEnabled(false);
                                 destroyRedomat();
 
                                 closeProgressDialog();
@@ -255,18 +265,23 @@ public class RedomatAdmin extends AppCompatActivity implements PauseDialog.Pause
         activeRedomatLineRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                redomat.incrementRedomatLength();
-                activeRedomatLenRef.setValue(redomat.getRedomatLength());
+                try{
+                    redomat.incrementRedomatLength();
+                    activeRedomatLenRef.setValue(redomat.getRedomatLength());
 
-                List userRedomatInfo = new ArrayList();
+                    List userRedomatInfo = new ArrayList();
 
-                for(DataSnapshot redomatUsers : dataSnapshot.getChildren()){
-                    userRedomatInfo.add(redomatUsers.getValue());
+                    for(DataSnapshot redomatUsers : dataSnapshot.getChildren()){
+                        userRedomatInfo.add(redomatUsers.getValue());
+                    }
+
+                    redomat.pushUser(String.valueOf(userRedomatInfo.get(0)), String.valueOf(userRedomatInfo.get(1)));
+                    //On added user, update UI to display correct num of users in the Redomat
+                    rdmaAdminRedomatLengthValue.setText(String.valueOf(redomat.getRedomatLength()));
+                } catch (Exception e){
+                    destroyRedomatListener();
+                    finish();
                 }
-
-                redomat.pushUser(String.valueOf(userRedomatInfo.get(0)), String.valueOf(userRedomatInfo.get(1)));
-                //On added user, update UI to display correct num of users in the Redomat
-                rdmaAdminRedomatLengthValue.setText(String.valueOf(redomat.getRedomatLength()));
             }
 
             @Override
@@ -351,6 +366,32 @@ public class RedomatAdmin extends AppCompatActivity implements PauseDialog.Pause
 
             }
         });
+    }
+
+    private void destroyRedomatListener(){
+        db.getReference("Redomats").child(pin).child("name").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.exists()){
+                    db.getReference("Redomats").child(pin).removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void waitingTimeSetter(){
+        if(redomatHasJustStarted == true){
+            avgWaitingTime = (System.currentTimeMillis() / 1000);
+            redomatHasJustStarted = false;
+        } else {
+            redomatNextPersonTimeRef.setValue(String.valueOf(((System.currentTimeMillis() / 1000) - avgWaitingTime)));
+            avgWaitingTime = (System.currentTimeMillis() / 1000);
+        }
     }
 
     //Options menu

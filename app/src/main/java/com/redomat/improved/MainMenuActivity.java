@@ -24,12 +24,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.redomat.improved.databinding.ActivityLoginBinding;
 import com.redomat.improved.databinding.ActivityMainMenuBinding;
+import com.redomat.improved.pojo.AccountLine;
 import com.redomat.improved.pojo.Line;
 
 import static com.redomat.improved.pojo.ProgressBar.closeProgressDialog;
 import static com.redomat.improved.pojo.ProgressBar.showProgressDialog;
 
-public class MainMenuActivity extends AppCompatActivity implements MakeANewRedomatDialog.MakeANewRedomatDialogListener {
+public class MainMenuActivity extends AppCompatActivity implements MakeANewRedomatDialog.MakeANewRedomatDialogListener, EnterNewRedomatDialog.EnterAnNewRedomatListener {
     //Firebase stuff
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseUser currentUser;
@@ -39,6 +40,8 @@ public class MainMenuActivity extends AppCompatActivity implements MakeANewRedom
     private DatabaseReference redomat;
     private DatabaseReference allRedomatsRef = db.getReference("Redomats");
     private DatabaseReference userMadeRedomatsCount = user.child("numOfMadeRedomats");
+    private DatabaseReference userParticipatedRedomatsCount = user.child("numOfParticipatedRedomats");
+    private DatabaseReference enterRedomatRef;
     private boolean userRedomatAdmin;
 
     //View Binding
@@ -121,6 +124,14 @@ public class MainMenuActivity extends AppCompatActivity implements MakeANewRedom
                     MakeANewRedomatDialog newRedomatDialog = new MakeANewRedomatDialog();
                     newRedomatDialog.show(getSupportFragmentManager(), "new_redomat");
                 }
+            }
+        });
+
+        mainMenuBtnEnterRedomat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EnterNewRedomatDialog enterNewRedomatDialog = new EnterNewRedomatDialog();
+                enterNewRedomatDialog.show(getSupportFragmentManager(), "enter_redomat");
             }
         });
     }
@@ -211,6 +222,21 @@ public class MainMenuActivity extends AppCompatActivity implements MakeANewRedom
         });
     }
 
+    private void incrementNumOfParticipatedRedomats(){
+        userParticipatedRedomatsCount.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int countOfParticipatedRedomats = Integer.valueOf(String.valueOf(dataSnapshot.getValue())) + 1;
+                userParticipatedRedomatsCount.setValue(countOfParticipatedRedomats);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     //Generate and set unique pin value for creating a new Redomat Line
     private void returnUniquePin(){
         pin = Line.generatePin();
@@ -228,5 +254,22 @@ public class MainMenuActivity extends AppCompatActivity implements MakeANewRedom
                 Toast.makeText(MainMenuActivity.this, "Došlo je do pogreške.", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void enterAnNewRedomat(long myRedomatPosition, String pin) {
+        showProgressDialog(MainMenuActivity.this);
+        enterRedomatRef = db.getReference("Redomats").child(pin);
+        AccountLine newUser = new AccountLine(enterRedomatRef.getKey());
+
+        Log.d("Ovo", String.valueOf(myRedomatPosition));
+
+        Intent i = new Intent(this, RedomatUserActivity.class);
+
+        i.putExtra("enteredUserPosition", String.valueOf(myRedomatPosition));
+        i.putExtra("pin", pin);
+        incrementNumOfParticipatedRedomats();
+
+        startActivity(i);
     }
 }
