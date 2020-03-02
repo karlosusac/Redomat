@@ -261,8 +261,6 @@ public class MainMenuActivity extends AppCompatActivity implements MakeANewRedom
         enterRedomatRef = db.getReference("Redomats").child(pin);
         AccountLine newUser = new AccountLine(enterRedomatRef.getKey());
 
-        Log.d("Ovo", String.valueOf(myRedomatPosition));
-
         Intent i = new Intent(this, RedomatUserActivity.class);
 
         i.putExtra("enteredUserPosition", String.valueOf(myRedomatPosition));

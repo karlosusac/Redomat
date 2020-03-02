@@ -27,13 +27,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.redomat.improved.databinding.ActivityLoginBinding;
 import com.redomat.improved.pojo.Account;
+import com.redomat.improved.pojo.AccountLine;
 import com.redomat.improved.pojo.ProgressBar;
 
-public class LoginActivity extends AppCompatActivity {
+import static com.redomat.improved.pojo.ProgressBar.showProgressDialog;
+
+public class LoginActivity extends AppCompatActivity implements EnterNewRedomatDialog.EnterAnNewRedomatListener {
     //Firebase stuff
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseUser currentUser;
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
+
+    private DatabaseReference enterRedomatRef;
 
     //View Binding
     private ActivityLoginBinding mBiding;
@@ -109,6 +114,14 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
+        logBtnEnterALine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EnterNewRedomatDialog enterNewRedomatDialog = new EnterNewRedomatDialog();
+                enterNewRedomatDialog.show(getSupportFragmentManager(), "enter_redomat");
+            }
+        });
     }
 
     //CUSTOM METHODS
@@ -144,5 +157,19 @@ public class LoginActivity extends AppCompatActivity {
     public void openForgotPasswordDialog(View view){
         ForgotPasswordDialog frgtPassDialog = new ForgotPasswordDialog();
         frgtPassDialog.show(getSupportFragmentManager(), "forgot_password_dialog");
+    }
+
+    @Override
+    public void enterAnNewRedomat(long myRedomatPosition, String pin) {
+        showProgressDialog(LoginActivity.this);
+        enterRedomatRef = db.getReference("Redomats").child(pin);
+        AccountLine newUser = new AccountLine(enterRedomatRef.getKey());
+
+        Intent i = new Intent(this, RedomatUserUnregisteredActivity.class);
+
+        i.putExtra("enteredUserPosition", String.valueOf(myRedomatPosition));
+        i.putExtra("pin", pin);
+
+        startActivity(i);
     }
 }
