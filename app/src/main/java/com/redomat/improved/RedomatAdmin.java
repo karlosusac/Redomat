@@ -418,6 +418,15 @@ public class RedomatAdmin extends AppCompatActivity implements PauseDialog.Pause
 
                 return true;
 
+            case R.id.optMenuStatistics:
+                StatisticsDialog statDialog = new StatisticsDialog();
+                statDialog.show(getSupportFragmentManager(), "stat_dialog");
+                return true;
+
+            case R.id.optMenuSettings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }

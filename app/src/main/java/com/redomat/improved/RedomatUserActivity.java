@@ -6,6 +6,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.preference.PreferenceManager;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -13,6 +14,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -158,13 +160,10 @@ public class RedomatUserActivity extends AppCompatActivity {
     //Options menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if(currentUser != null){
-            MenuInflater inflater = getMenuInflater();
-            inflater.inflate(R.menu.options_menu_dialog, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options_menu_dialog, menu);
 
-            return true;
-        }
-        return false;
+        return true;
     }
 
     @Override
@@ -207,7 +206,9 @@ public class RedomatUserActivity extends AppCompatActivity {
 
                     if(userRedomatCurrentRedomatPosition == rdmaUserPositionValue){
                         if(notificationOpened == false){
-                            sendYouAreUpNotification();
+                            if(readNotificationSettings()){
+                                sendYouAreUpNotification();
+                            }
                         }
                         rdmaUserSInfrontValue.setText(getString(R.string.notYouAreUpText));
                         rdmaUserAvgTimeValue.setText("---");
@@ -250,6 +251,7 @@ public class RedomatUserActivity extends AppCompatActivity {
 
     //-----------------------------------------------------------------------------------------------
 
+    //Alert dialog builder for leaving an Redomat
     private void makeAnExitAlertDialog(){
         final AlertDialog leaveAnRedomat = new AlertDialog.Builder(RedomatUserActivity.this)
                 .setTitle("Napustite red?")
@@ -269,6 +271,7 @@ public class RedomatUserActivity extends AppCompatActivity {
                 .show();
     }
 
+    //Method which updates firebase and sets the value that user has left an Redomat
     private void leaveAnRedomatLine(){
         redomatRef.child("currentPosition").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -291,6 +294,7 @@ public class RedomatUserActivity extends AppCompatActivity {
         });
     }
 
+    //Listener which listens for Redomat destruction and it has occured delete any values that were set by this activity, this is here to prevent any junk that can be made due to an async function trigger
     private void destroyRedomatListener(){
         db.getReference("Redomats").child(pin).child("name").addValueEventListener(new ValueEventListener() {
             @Override
@@ -307,6 +311,7 @@ public class RedomatUserActivity extends AppCompatActivity {
         });
     }
 
+    //Listener for the Redomat status
     private void redomatStatusListener(){
         redomatRef.child("status").addValueEventListener(new ValueEventListener() {
             @Override
@@ -326,6 +331,7 @@ public class RedomatUserActivity extends AppCompatActivity {
         });
     }
 
+    //Listener for the user waiting time
     private void redomatNextPersonTimeListener(){
         redomatNextPersonTimeRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -349,6 +355,7 @@ public class RedomatUserActivity extends AppCompatActivity {
         });
     }
 
+    //Notification builder
     private void sendYouAreUpNotification(){
         NotificationCompat.Builder not = new NotificationCompat.Builder(this, "Notifikacije")
                 .setSmallIcon(R.mipmap.ic_launcher) // notification icon
@@ -367,6 +374,7 @@ public class RedomatUserActivity extends AppCompatActivity {
         notManager.notify(1, not.build());
     }
 
+    //Increment the number of user left Redomats in the Firebase
     private void incrementNumOfLeftRedomats(){
         userAccountRef.child("numOfLeftRedomats").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -380,5 +388,15 @@ public class RedomatUserActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    //Return true if notifications are turned on
+    private boolean readNotificationSettings(){
+        SharedPreferences shrdPref = PreferenceManager.getDefaultSharedPreferences(this);
+        if(shrdPref.getBoolean("settingsActivitySwitchNotifications", true) == true){
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -183,7 +183,6 @@ public class MainMenuActivity extends AppCompatActivity implements MakeANewRedom
     @Override
     public void makeNewRedomat(String redomatName) {
         showProgressDialog(MainMenuActivity.this);
-        //TODO Dodati monitor koji gleda dali ima interneta, ako ne traži ga miško
 
         returnUniquePin();
 
