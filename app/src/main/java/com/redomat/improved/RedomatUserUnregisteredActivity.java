@@ -270,11 +270,13 @@ public class RedomatUserUnregisteredActivity extends AppCompatActivity {
         redomatRef.child("status").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getValue().toString().equals("active")){
-                    rdmaUserRedomatStatusValue.setText("Aktivan");
-                } else {
-                    rdmaUserRedomatStatusValue.setText("Pauziran do: " + dataSnapshot.getValue().toString());
-                    rdmaUserAvgTimeValue.setText("---");
+                if(dataSnapshot.exists()){
+                    if(dataSnapshot.getValue().toString().equals("active")){
+                        rdmaUserRedomatStatusValue.setText("Aktivan");
+                    } else {
+                        rdmaUserRedomatStatusValue.setText("Pauziran do: " + dataSnapshot.getValue().toString());
+                        rdmaUserAvgTimeValue.setText("---");
+                    }
                 }
             }
 
