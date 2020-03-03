@@ -176,6 +176,7 @@ public class RedomatUserActivity extends AppCompatActivity {
                 mAuth.getInstance().signOut();
 
                 Intent i = new Intent(RedomatUserActivity.this, LoginActivity.class);
+                finishAffinity();
                 startActivity(i);
                 finish();
 

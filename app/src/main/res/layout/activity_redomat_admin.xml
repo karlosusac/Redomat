@@ -106,16 +106,6 @@
             android:text="@string/rdmaAdminBtnDestroy"
             android:textColor="@color/colorWhite"
             app:backgroundTint="@color/colorPrimary" />
-
-        <Button
-            android:id="@+id/rdmaAdminBtnAddPerson"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Add person"
-            android:textColor="@color/colorWhite"
-            app:backgroundTint="@color/colorPrimary"
-            />
-
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

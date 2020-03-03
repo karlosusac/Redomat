@@ -155,6 +155,7 @@ public class MainMenuActivity extends AppCompatActivity implements MakeANewRedom
                 mAuth.getInstance().signOut();
 
                 Intent i = new Intent(MainMenuActivity.this, LoginActivity.class);
+                finishAffinity();
                 startActivity(i);
                 finish();
 

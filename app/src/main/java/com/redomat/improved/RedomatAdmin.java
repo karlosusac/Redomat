@@ -53,7 +53,6 @@ public class RedomatAdmin extends AppCompatActivity implements PauseDialog.Pause
     private DatabaseReference activeRedomatLenRef;
     private DatabaseReference activeRedomatCurrentPositionRef;
     private DatabaseReference activeRedomatStatusRef;
-    private DatabaseReference getActiveRedomatNextPersonTimeRef;
     private DatabaseReference redomatNextPersonTimeRef;
 
     private boolean isRedomatLinePaused;
@@ -67,7 +66,6 @@ public class RedomatAdmin extends AppCompatActivity implements PauseDialog.Pause
     private Button rdmaAdminBtnPause;
     private Button rdmaAdminBtnNext;
     private Button rdmaAdminBtnDestory;
-    private Button rdmaAdminBtnAddPerson;
     //----------------------
 
     //TextView
@@ -125,7 +123,6 @@ public class RedomatAdmin extends AppCompatActivity implements PauseDialog.Pause
         rdmaAdminBtnPause = mBinding.rdmaAdminBtnPause;
         rdmaAdminBtnNext = mBinding.rdmaAdminBtnNext;
         rdmaAdminBtnDestory = mBinding.rdmaAdminBtnDestroy;
-        rdmaAdminBtnAddPerson = mBinding.rdmaAdminBtnAddPerson;
         //-----------------------------
 
         //Text View
@@ -219,26 +216,6 @@ public class RedomatAdmin extends AppCompatActivity implements PauseDialog.Pause
             }
         });
 
-
-        rdmaAdminBtnAddPerson.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                activeRedomatLineRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        long index = dataSnapshot.getChildrenCount();
-                        activeRedomatLineRef.child(String.valueOf(index + 1)).setValue(new AccountLine("AQdHVYgh7tfb81D12Sx986nk4bJ2"));
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-            }
-        });
-
-
         rdmaAdminBtnPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -310,7 +287,6 @@ public class RedomatAdmin extends AppCompatActivity implements PauseDialog.Pause
 
     public void nextUser(){
         redomat.incrementRedomatCurrentPosition();
-        Toast.makeText(RedomatAdmin.this, redomat.getRedomatLine().get(redomat.getCurrentPosition()).getStatus(), Toast.LENGTH_SHORT).show();
         activeRedomatCurrentPositionRef.setValue(redomat.getCurrentPosition());
         rdmaAdminCurrentPositionValue.setText(redomat.getCurrentPosition().toString());
     }
@@ -413,6 +389,7 @@ public class RedomatAdmin extends AppCompatActivity implements PauseDialog.Pause
                 mAuth.getInstance().signOut();
 
                 Intent i = new Intent(RedomatAdmin.this, LoginActivity.class);
+                finishAffinity();
                 startActivity(i);
                 finish();
 

@@ -63,6 +63,7 @@ public class SettingsActivity extends AppCompatActivity{
                 mAuth.getInstance().signOut();
 
                 Intent i = new Intent(SettingsActivity.this, LoginActivity.class);
+                finishAffinity();
                 startActivity(i);
                 finish();
 
