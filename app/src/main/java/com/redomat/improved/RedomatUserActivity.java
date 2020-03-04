@@ -281,7 +281,7 @@ public class RedomatUserActivity extends AppCompatActivity {
 
                 if(dataSnapshot.exists()){
                     redomatCurrentUserRef.child("status").setValue("inactive");
-                    if(rdmaUserPositionValue < userRedomatCurrentRedomatPosition){
+                    if(rdmaUserPositionValue > userRedomatCurrentRedomatPosition){
                         incrementNumOfLeftRedomats();
                     }
                     finish();
