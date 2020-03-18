@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,8 +19,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.redomat.improved.databinding.DialogStatisticsBinding;
 
 public class StatisticsDialog extends DialogFragment {
+
+    //View binding
+    private DialogStatisticsBinding diagStatBinding;
 
     //Firebase stuff
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -37,21 +42,26 @@ public class StatisticsDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        final View view = inflater.inflate(R.layout.dialog_statistics, null);
-
-        builder.setView(view);
+        diagStatBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_statistics, null, false);
+        builder.setView(diagStatBinding.getRoot());
 
         //Initialize TextView elements
-        statDialogNumOfMadeRedomatsValue = view.findViewById(R.id.statDialogNumOfMadeRedomatsValue);
+        statDialogNumOfMadeRedomatsValue = diagStatBinding.statDialogNumOfMadeRedomatsValue;
 
-        statDialogNumOfParticipatedRedomatsValue = view.findViewById(R.id.statDialogNumOfParticipatedRedomatsValue);
+        statDialogNumOfParticipatedRedomatsValue = diagStatBinding.statDialogNumOfParticipatedRedomatsValue;
 
-        statDialogNumOfLeftRedomatsValue = view.findViewById(R.id.statDialogNumOfLeftRedomatsValue);
+        statDialogNumOfLeftRedomatsValue = diagStatBinding.statDialogNumOfLeftRedomatsValue;
 
 
-        builder.setTitle("Statistika korisnika")
+        //Apply loading message
+        statDialogNumOfMadeRedomatsValue.setText(getString(R.string.statDialogLoading));
+
+        statDialogNumOfParticipatedRedomatsValue.setText(getString(R.string.statDialogLoading));
+
+        statDialogNumOfLeftRedomatsValue.setText(getString(R.string.statDialogLoading));
+
+
+        builder.setTitle(getString(R.string.statDialogTitle))
                 .setNegativeButton(getString(R.string.statDialogCloseDialog), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

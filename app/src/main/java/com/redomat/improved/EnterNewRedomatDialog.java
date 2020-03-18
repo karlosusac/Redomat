@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -69,6 +70,7 @@ public class EnterNewRedomatDialog extends DialogFragment {
         private boolean redomatExists;
         //--------------------------------
 
+        //variables to store pin and basic Redomat Line data such as number of people in the redomat and current Redomat position
         private String pin;
 
         private long numOfPeopleInRedomat;
@@ -79,12 +81,13 @@ public class EnterNewRedomatDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        //Building an AlertDialog
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_enter_an_redomat, null);
+        entNewRdmBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_enter_an_redomat, null, false);
+        builder.setView(entNewRdmBinding.getRoot());
 
-        builder.setView(view);
+        //-------------------------------------------------------------------------------------
 
         builder.setTitle(getString(R.string.enterRedomatTitle))
                 .setNegativeButton(getString(R.string.enterRedomatCancel), new DialogInterface.OnClickListener() {
@@ -95,27 +98,29 @@ public class EnterNewRedomatDialog extends DialogFragment {
                 });
 
         //TextInputLayout
-        enterRedomatPinTxtInputLayout = view.findViewById(R.id.enterRedomatInputPin);
+        enterRedomatPinTxtInputLayout = entNewRdmBinding.enterRedomatInputPin;
         //--------------------------------
 
         //TextInputEditText
-        enterRedomatPinValue = view.findViewById(R.id.enterRedomatInputPinValue);
+        enterRedomatPinValue = entNewRdmBinding.enterRedomatInputPinValue;
         //--------------------------------
 
         //Button
-        enterRedomatBtnConfirm = view.findViewById(R.id.enterRedomatBtnConfirm);
+        enterRedomatBtnConfirm = entNewRdmBinding.enterRedomatBtnConfirm;
         //--------------------------------
 
         //ProgressBar
-        enterRedomatProgressBar = view.findViewById(R.id.enterRedomatProgressBar);
+        enterRedomatProgressBar = entNewRdmBinding.enterRedomatProgressBar;
         //--------------------------------
 
+        //Hide progress bar
         enterRedomatProgressBar.setVisibility(View.GONE);
 
 
         enterRedomatBtnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Show progress bar and disable button so it can't be spamed
                 enterRedomatProgressBar.setVisibility(View.VISIBLE);
                 enterRedomatBtnConfirm.setEnabled(false);
 
@@ -126,7 +131,7 @@ public class EnterNewRedomatDialog extends DialogFragment {
 
 
                 if(!String.valueOf(enterRedomatPinValue.getText()).isEmpty()){
-
+                    //If entered string is not null search for the pin in the Firebase
                     redomatsRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -164,6 +169,9 @@ public class EnterNewRedomatDialog extends DialogFragment {
         return builder.create();
     }
 
+    //METHODS
+
+    //Add an user to the Redomat Line
     private void addUserToAnRedomat(){
         enteringRedomatRedomatLineRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -189,6 +197,7 @@ public class EnterNewRedomatDialog extends DialogFragment {
         });
     }
 
+    //Interface that sends data from the RedomatDialog to the MainMenuActivity
     public interface EnterAnNewRedomatListener{
         void enterAnNewRedomat(long myRedomatPosition, String pin);
     }
@@ -200,10 +209,11 @@ public class EnterNewRedomatDialog extends DialogFragment {
         try {
             listener = (EnterAnNewRedomatListener) context;
         } catch (ClassCastException e) {
-            Toast.makeText(context, "Došlo je do pogreške", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, getString(R.string.errorHasOccured), Toast.LENGTH_SHORT).show();
         }
     }
 
+    //Set an Redomat name
     private void setRedomatNameVariable(){
         enteringRedomatRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

@@ -48,6 +48,9 @@ public class RedomatUserUnregisteredActivity extends AppCompatActivity {
     private DatabaseReference redomatRef;
     private DatabaseReference redomatCurrentPositionRef;
     private DatabaseReference redomatNextPersonTimeRef;
+
+    //ValueEvent initialized to ditach the listener after the user leaves the Redomat
+    private ValueEventListener redomatCurrentPositionEventListener;
     //------------------------
 
     //NotificationManager
@@ -157,7 +160,7 @@ public class RedomatUserUnregisteredActivity extends AppCompatActivity {
     }
 
     private void userPositionListener(){
-        redomatCurrentPositionRef.addValueEventListener(new ValueEventListener() {
+        redomatCurrentPositionEventListener = redomatCurrentPositionRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
@@ -186,6 +189,7 @@ public class RedomatUserUnregisteredActivity extends AppCompatActivity {
         });
     }
 
+    //Set Redomat name as a Action Bar title
     private void setRedomatName(){
         redomatRef.child("name").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -211,15 +215,16 @@ public class RedomatUserUnregisteredActivity extends AppCompatActivity {
     //Alert dialog builder for leaving an Redomat
     private void makeAnExitAlertDialog(){
         final AlertDialog leaveAnRedomat = new AlertDialog.Builder(RedomatUserUnregisteredActivity.this)
-                .setTitle("Napustite red?")
-                .setMessage("Dali ste sigurni da želite napusiti red?")
-                .setPositiveButton("Napusti", new DialogInterface.OnClickListener() {
+                .setTitle(getString(R.string.alrtDialogLeaveTitle))
+                .setMessage(getString(R.string.alrtDialogSureYouWantToLeave))
+                .setPositiveButton(getString(R.string.alrtDialogLeave), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        redomatCurrentPositionRef.removeEventListener(redomatCurrentPositionEventListener);
                         leaveAnRedomatLine();
                     }
                 })
-                .setNegativeButton("Odustani", new DialogInterface.OnClickListener() {
+                .setNegativeButton(getString(R.string.alrtDialogCancel), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //Do nothing

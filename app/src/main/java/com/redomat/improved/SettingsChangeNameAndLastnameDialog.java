@@ -10,6 +10,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -20,8 +21,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.redomat.improved.databinding.DialogSettingsChangeNameAndLastnameBinding;
 
 public class SettingsChangeNameAndLastnameDialog extends DialogFragment {
+
+    //View binding
+    private DialogSettingsChangeNameAndLastnameBinding diagChngNaLBinding;
 
     //Firebase stuff
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -46,21 +51,18 @@ public class SettingsChangeNameAndLastnameDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        final View view = inflater.inflate(R.layout.dialog_settings_change_name_and_lastname, null);
-
-        builder.setView(view);
+        diagChngNaLBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_settings_change_name_and_lastname, null, false);
+        builder.setView(diagChngNaLBinding.getRoot());
 
         //TextInputLayout
-        stgChngNameLastnameInputName = view.findViewById(R.id.settingsDialogChangeNameLastnameInputNameValue);
-        stgChngNameLastnameInputLastname = view.findViewById(R.id.settingsDialogChangeNameLastnameInputLastnameValue);
+        stgChngNameLastnameInputName = diagChngNaLBinding.settingsDialogChangeNameLastnameInputNameValue;
+        stgChngNameLastnameInputLastname = diagChngNaLBinding.settingsDialogChangeNameLastnameInputLastnameValue;
 
         //Buttons
-        stgChngNameLastnameBtnConfirm = view.findViewById(R.id.settingsDialogChangeNameLastnameBtnConfrim);
+        stgChngNameLastnameBtnConfirm = diagChngNaLBinding.settingsDialogChangeNameLastnameBtnConfrim;
 
-        builder.setTitle("Promjena imena i prezimena")
-               .setNegativeButton("Odustani", new DialogInterface.OnClickListener() {
+        builder.setTitle(getString(R.string.settingsChngNameAndLastnameDialogTitle))
+               .setNegativeButton(getString(R.string.settingsChngNameAndLastnameCancel), new DialogInterface.OnClickListener() {
                    @Override
                    public void onClick(DialogInterface dialog, int which) {
                        //Do nothing

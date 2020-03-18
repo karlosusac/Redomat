@@ -90,6 +90,7 @@ public class RedomatAdmin extends AppCompatActivity implements PauseDialog.Pause
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //Close progress dialog from the MainMenuActivity and start a new one
         closeProgressDialog();
         showProgressDialog(RedomatAdmin.this);
 
@@ -224,6 +225,7 @@ public class RedomatAdmin extends AppCompatActivity implements PauseDialog.Pause
         });
     }
 
+    //Destroy an current redomatLine
     public void destroyRedomat(){
         userRef.child("redomat").removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -238,6 +240,7 @@ public class RedomatAdmin extends AppCompatActivity implements PauseDialog.Pause
         });
     }
 
+    //Method that listens for the new users that join Redomat and updates an List from which admin pulls and 'controlls' users
     private void listenForNewUsers(){
         activeRedomatLineRef.addChildEventListener(new ChildEventListener() {
             @Override
@@ -285,6 +288,7 @@ public class RedomatAdmin extends AppCompatActivity implements PauseDialog.Pause
         });
     }
 
+    //Increment the RedomatLineArray and update position in the Firebase
     public void nextUser(){
         redomat.incrementRedomatCurrentPosition();
         activeRedomatCurrentPositionRef.setValue(redomat.getCurrentPosition());
@@ -325,6 +329,7 @@ public class RedomatAdmin extends AppCompatActivity implements PauseDialog.Pause
         });
     }
 
+    //Method for pausing an Redomat if it is active and unpausing if it is paused
     public void pauseAndUnpauseRedomatLine(){
         activeRedomatStatusRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -344,6 +349,7 @@ public class RedomatAdmin extends AppCompatActivity implements PauseDialog.Pause
         });
     }
 
+    //Listen for destruction of the Redomat and if any junk values are made (and they will be made) delete them from the database (if ther is an Redomat in the Firebase without the name that means that Redomat has been deleted and 'zombie' Redomat was made, this methods deletes and zombie Redomat)
     private void destroyRedomatListener(){
         db.getReference("Redomats").child(pin).child("name").addValueEventListener(new ValueEventListener() {
             @Override
@@ -360,6 +366,7 @@ public class RedomatAdmin extends AppCompatActivity implements PauseDialog.Pause
         });
     }
 
+    //Method for settings an average waiting time
     private void waitingTimeSetter(){
         if(redomatHasJustStarted == true){
             avgWaitingTime = (System.currentTimeMillis() / 1000);

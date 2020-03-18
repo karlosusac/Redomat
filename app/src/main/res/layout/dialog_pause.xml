@@ -1,57 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="16dp">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp">
 
-        <DatePicker
-            android:id="@+id/pauseDialogInputDate"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:calendarViewShown="false"
-            android:datePickerMode="spinner"
-            android:ems="10"
-            android:theme="@style/AppTheme" />
+            android:orientation="vertical">
 
-        <TimePicker
-            android:id="@+id/pauseDialogInputTime"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="time"
-            android:timePickerMode="spinner"
-            android:ems="10"
-            />
+            <DatePicker
+                android:id="@+id/pauseDialogInputDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:calendarViewShown="false"
+                android:datePickerMode="spinner"
+                android:ems="10"
+                android:theme="@style/AppTheme" />
 
-        <TextView
-            android:id="@+id/pauseDialogErrorInvalidTimeDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Nevaljan datum"
-            android:textColor="@color/colorRed" />
+            <TimePicker
+                android:id="@+id/pauseDialogInputTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="time"
+                android:timePickerMode="spinner" />
 
-        <Button
-            android:id="@+id/pauseDialogBtnPause"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Pauziraj"
-            android:textColor="@color/colorWhite"
-            app:backgroundTint="@color/colorPrimary"
-            />
+            <TextView
+                android:id="@+id/pauseDialogErrorInvalidTimeDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Nevaljan datum"
+                android:textColor="@color/colorRed" />
 
-        <ProgressBar
-            android:id="@+id/pauseDialogProgressBar"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/pauseDialogBtnPause"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Pauziraj"
+                android:textColor="@color/colorWhite"
+                app:backgroundTint="@color/colorPrimary" />
 
+            <ProgressBar
+                android:id="@+id/pauseDialogProgressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
 
-    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

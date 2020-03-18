@@ -144,7 +144,7 @@ public class LoginActivity extends AppCompatActivity implements EnterNewRedomatD
         }
     }
 
-    //Function to go to the Register Acitivity - Used in XML as a link
+    //Method to go to the Register Acitivity - Used in XML as a link
     public void openRegisterActivity(View v){
         ProgressBar.showProgressDialog(LoginActivity.this);
 
@@ -153,7 +153,7 @@ public class LoginActivity extends AppCompatActivity implements EnterNewRedomatD
         //startActivity(newIntent);
     }
 
-    //Function to go to the ForgotPassword Dialog - Used in XML as a link
+    //Method to go to the ForgotPassword Dialog - Used in XML as a link
     public void openForgotPasswordDialog(View view){
         ForgotPasswordDialog frgtPassDialog = new ForgotPasswordDialog();
         frgtPassDialog.show(getSupportFragmentManager(), "forgot_password_dialog");

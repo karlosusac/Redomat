@@ -131,6 +131,7 @@ public class PauseDialog extends DialogFragment {
         }
     }
 
+    //Pause interface that passes date to the RedomatAdmin so pause time can be applied
     public interface PauseDialogListener{
         void pause(String date);
     }

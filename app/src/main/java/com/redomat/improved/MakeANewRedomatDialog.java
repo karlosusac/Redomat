@@ -15,13 +15,18 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.redomat.improved.databinding.DialogMakeANewRedomatBinding;
 
 
 public class MakeANewRedomatDialog extends DialogFragment {
+
+    //View binding
+    private DialogMakeANewRedomatBinding diagNewRedBinding;
 
     //Firebase stuff
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -43,20 +48,17 @@ public class MakeANewRedomatDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_make_a_new_redomat, null);
-
-        builder.setView(view);
+        diagNewRedBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_make_a_new_redomat, null, false);
+        builder.setView(diagNewRedBinding.getRoot());
 
         //EditText
-        makeANewRedomatInputName = view.findViewById(R.id.newRedomatInputName);
+        makeANewRedomatInputName = diagNewRedBinding.newRedomatInputName;
 
         //Buttons
-        makeANewRedomatBtnConfirm = view.findViewById(R.id.newRedomatBtnConfirm);
+        makeANewRedomatBtnConfirm = diagNewRedBinding.newRedomatBtnConfirm;
 
         //Progress Bar
-        progressBar = view.findViewById(R.id.newRedomatProgressBar);
+        progressBar = diagNewRedBinding.newRedomatProgressBar;
         progressBar.setVisibility(View.GONE);
 
         //CODE
@@ -91,11 +93,12 @@ public class MakeANewRedomatDialog extends DialogFragment {
         }
     }
 
+    //Intercae that sends data required to make an new Redomat to the MainManuActivity
     public interface MakeANewRedomatDialogListener{
         void makeNewRedomat(String redomatName);
     }
 
-    //Check if redomat name is
+    //Check if redomat name is valid, if it is not empty and/or longer than 25 characters
     private void validateRedomatLineName(String name){
         if(name.isEmpty()){
             makeANewRedomatInputName.setError(getString(R.string.makeANewRedomatEnterRedomatName));

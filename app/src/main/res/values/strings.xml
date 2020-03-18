@@ -102,6 +102,7 @@
     <string name="settingsChngNameAndLastnameTitle">Promjenite ime i prezime</string>
     <string name="settingsChngNameAndLastnameCancel">Odustani</string>
     <string name="settingsChngNameAndLastnameInputErrorEmpty">Polje ne može ostati prazno</string>
+    <string name="settingsChngNameAndLastnameDialogTitle">Promjena imena i prezimena</string>
     //'/'Settings
 
     //EnterRedomat
@@ -124,6 +125,8 @@
     <string name="statDialogNumOfParticipatedRedoats">Sudjelovanih redova:</string>
     <string name="statDialogNumOfLeftRedomats">Napuštenih redova:</string>
     <string name="statDialogCloseDialog">Napusti</string>
+    <string name="statDialogTitle">Statistika korisnika</string>
+    <string name="statDialogLoading">Učitavanje...</string>
     //'/'StatisticsDialog
 
     //OptionsMenuDialog
@@ -135,6 +138,17 @@
     //ProgressDialog
     <string name="progText">Učitavanje...</string>
     //'/'ProgressDialog
+
+    //AlertDialogLeaveAnArray
+    <string name="alrtDialogLeaveTitle">Napustite red?</string>
+    <string name="alrtDialogSureYouWantToLeave">Dali ste sigurni da želite napusiti red?</string>
+    <string name="alrtDialogLeave">Napusti</string>
+    <string name="alrtDialogCancel">Odustani</string>
+    //'/'AlertDialogLeaveAnArray
+
+    //HelpingStuffInGeneral
+    <string name="errorHasOccured">Došlo je do pogreške</string>
+    //'/'HelpingStuffInGeneral
 
 
 </resources>

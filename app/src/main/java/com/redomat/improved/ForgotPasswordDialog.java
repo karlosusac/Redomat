@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,8 +21,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.SignInMethodQueryResult;
+import com.redomat.improved.databinding.DialogForgotPasswordBinding;
 
 public class ForgotPasswordDialog extends DialogFragment {
+
+    //View binding
+    private DialogForgotPasswordBinding diagForgPassBinding;
 
     //Firebase stuff
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -41,20 +46,19 @@ public class ForgotPasswordDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        diagForgPassBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.dialog_forgot_password, null, false);
 
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_forgot_password, null);
+        builder.setView(diagForgPassBinding.getRoot());
 
-        builder.setView(view);
 
         //EditText
-        frgtPassDialogInputEmail = view.findViewById(R.id.frgtPassDialogInputEmail);
+        frgtPassDialogInputEmail = diagForgPassBinding.frgtPassDialogInputEmail;
 
         //Buttons
-        frgtPassDialogBtnConfirm = view.findViewById(R.id.frgtPassDialogBtnConfirm);
+        frgtPassDialogBtnConfirm = diagForgPassBinding.frgtPassDialogBtnConfirm;
 
         //Progress Bar
-        progressBar = view.findViewById(R.id.frgtPassDialogProgressBar);
+        progressBar = diagForgPassBinding.frgtPassDialogProgressBar;
         progressBar.setVisibility(View.GONE);
 
         builder.setTitle(getString(R.string.frgtPassDialogForgottenPassword))

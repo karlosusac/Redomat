@@ -49,6 +49,9 @@ public class RedomatUserActivity extends AppCompatActivity {
     private DatabaseReference redomatCurrentPositionRef;
     private DatabaseReference redomatNextPersonTimeRef;
     private DatabaseReference userAccountRef = db.getReference("Accounts").child(mAuth.getCurrentUser().getUid());
+
+    //ValueEvent initialized to ditach the listener after the user leaves the Redomat
+    private ValueEventListener redomatCurrentPositionEventListener;
     //------------------------
 
     //NotificationManager
@@ -199,7 +202,7 @@ public class RedomatUserActivity extends AppCompatActivity {
     // '\'Options menu -----------------------------------------------------------------------------
 
     private void userPositionListener(){
-        redomatCurrentPositionRef.addValueEventListener(new ValueEventListener() {
+        redomatCurrentPositionEventListener = redomatCurrentPositionRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
@@ -230,6 +233,7 @@ public class RedomatUserActivity extends AppCompatActivity {
         });
     }
 
+    //Set Redomat name as a Action Bar title
     private void setRedomatName(){
         redomatRef.child("name").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -255,15 +259,16 @@ public class RedomatUserActivity extends AppCompatActivity {
     //Alert dialog builder for leaving an Redomat
     private void makeAnExitAlertDialog(){
         final AlertDialog leaveAnRedomat = new AlertDialog.Builder(RedomatUserActivity.this)
-                .setTitle("Napustite red?")
-                .setMessage("Dali ste sigurni da želite napusiti red?")
-                .setPositiveButton("Napusti", new DialogInterface.OnClickListener() {
+                .setTitle(getString(R.string.alrtDialogLeaveTitle))
+                .setMessage(getString(R.string.alrtDialogSureYouWantToLeave))
+                .setPositiveButton(getString(R.string.alrtDialogLeave), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        redomatCurrentPositionRef.removeEventListener(redomatCurrentPositionEventListener);
                         leaveAnRedomatLine();
                     }
                 })
-                .setNegativeButton("Odustani", new DialogInterface.OnClickListener() {
+                .setNegativeButton(getString(R.string.alrtDialogCancel), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //Do nothing
@@ -343,7 +348,11 @@ public class RedomatUserActivity extends AppCompatActivity {
                     int numOfUsersInfront = rdmaUserPositionValue - userRedomatCurrentRedomatPosition;
                     int avgTime = Integer.valueOf(dataSnapshot.getValue().toString()) * numOfUsersInfront;
 
-                    if(avgTime < 60){
+                    if(avgTime == 0){
+                        //TODO check if else if reacts as expected
+                        //TODO It doesn't, if the admin spams next button 'Izručunavanje' message will be set, need better fix
+                        rdmaUserAvgTimeValue.setText(R.string.rdmaUserRedomatNextPersonTimeDefault);
+                    } else if(avgTime < 60){
                         rdmaUserAvgTimeValue.setText(getString(R.string.rdmaUserRedomatNextPersonLessThanMinLeft));
                     } else {
                         rdmaUserAvgTimeValue.setText("~" + (avgTime / 60) + " min");
@@ -371,6 +380,7 @@ public class RedomatUserActivity extends AppCompatActivity {
         intent.putExtra("enteredUserPosition", String.valueOf(rdmaUserPositionValue));
         intent.putExtra("pin", pin);
         intent.putExtra("openedThroughNotification", "true");
+        //Point of the 'openedThroughNotification' is, if the Activity has been opened through the notification, do not fire notification again (to show notification only once)
         PendingIntent pi = PendingIntent.getActivity(RedomatUserActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         not.setContentIntent(pi);
 

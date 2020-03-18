@@ -33,6 +33,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.redomat.improved.databinding.DialogSettingsChangeNameAndLastnameBinding;
 
 public class SettingsFragment extends PreferenceFragment {
     //Firebase stuff
@@ -43,6 +44,9 @@ public class SettingsFragment extends PreferenceFragment {
     //ChangeNameAndLastname
         //Firebase stuff
         private DatabaseReference currentUser = db.getReference("Accounts").child(mAuth.getCurrentUser().getUid());
+
+        //View binding
+        private DialogSettingsChangeNameAndLastnameBinding diagNaLBinding;
 
         //Initialize dialog variables
 
@@ -178,6 +182,7 @@ public class SettingsFragment extends PreferenceFragment {
             builder.show();
         }
 
+        //Validate if name and lastname are not empty and if they are return false and apply error message
         private boolean validateNameAndLastname(){
             boolean firstName = true;
             boolean lastName = true;
@@ -304,6 +309,7 @@ public class SettingsFragment extends PreferenceFragment {
     }
     //------------------------------
 
+    //Validate oldPassword, newPassword and ConfrimNewPassword with validatePassword method (very helpful, I know)
     private boolean validatePasswords(){
         boolean oldPassword = false;
         boolean newPassword = false;
@@ -330,6 +336,7 @@ public class SettingsFragment extends PreferenceFragment {
         }
     }
 
+    //Validate if entered password is not empty and if it longer than 5 characters
     private boolean validatePassword(String password, TextInputLayout errorField){
         if(!password.isEmpty()){
             if(password.length() >= 6){

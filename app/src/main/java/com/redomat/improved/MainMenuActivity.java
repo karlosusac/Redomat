@@ -222,6 +222,7 @@ public class MainMenuActivity extends AppCompatActivity implements MakeANewRedom
         });
     }
 
+    //Increment number of participated Redomat Lines in the Firebase for the current user
     private void incrementNumOfParticipatedRedomats(){
         userParticipatedRedomatsCount.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -256,6 +257,7 @@ public class MainMenuActivity extends AppCompatActivity implements MakeANewRedom
         });
     }
 
+    //Interface that is implemented from the EnterNewRedomatDialog, dialog sends data here and user is redirected to the new activity from here
     @Override
     public void enterAnNewRedomat(long myRedomatPosition, String pin) {
         showProgressDialog(MainMenuActivity.this);
