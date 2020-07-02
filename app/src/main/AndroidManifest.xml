@@ -10,10 +10,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RedomatUserUnregisteredActivity"
+        <activity
+            android:name=".RedomatUserUnregisteredActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".RedomatUserActivity"
             android:launchMode="singleTask"

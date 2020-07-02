@@ -12,9 +12,12 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -35,6 +38,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.redomat.improved.databinding.ActivityRedomatUserBinding;
+import com.redomat.improved.pojo.BroadcastReciever;
 
 import static com.redomat.improved.pojo.ProgressBar.closeProgressDialog;
 import static com.redomat.improved.pojo.ProgressBar.showProgressDialog;
@@ -69,6 +73,9 @@ public class RedomatUserUnregisteredActivity extends AppCompatActivity {
     //If notification was opened this will be set to true and new notifications will not be sent
     private static boolean notificationOpened;
     //----------------------------------------------------------------
+
+    //Broadcast reciever
+    BroadcastReceiver broadcastReceiver = new BroadcastReciever();
 
     //RedomatUserVariables
     private TextView rdmaUserTextUserPosition;
@@ -194,8 +201,12 @@ public class RedomatUserUnregisteredActivity extends AppCompatActivity {
         redomatRef.child("name").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                redomatName = dataSnapshot.getValue().toString();
-                setTitle(redomatName);
+                try{
+                    redomatName = dataSnapshot.getValue().toString();
+                    setTitle(redomatName);
+                } catch (Exception e){
+                    finish();
+                }
             }
 
             @Override
@@ -333,5 +344,20 @@ public class RedomatUserUnregisteredActivity extends AppCompatActivity {
         not.setContentIntent(pi);
 
         notManager.notify(1, not.build());
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(broadcastReceiver, filter);
+    }
+
+    @Override
+    public void onLocalVoiceInteractionStopped() {
+        super.onLocalVoiceInteractionStopped();
+
+        unregisterReceiver(broadcastReceiver);
     }
 }

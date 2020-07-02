@@ -7,7 +7,10 @@ import androidx.databinding.DataBindingUtil;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,6 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.redomat.improved.databinding.ActivityLoginBinding;
 import com.redomat.improved.pojo.Account;
 import com.redomat.improved.pojo.AccountLine;
+import com.redomat.improved.pojo.BroadcastReciever;
 import com.redomat.improved.pojo.ProgressBar;
 
 import static com.redomat.improved.pojo.ProgressBar.showProgressDialog;
@@ -43,6 +47,9 @@ public class LoginActivity extends AppCompatActivity implements EnterNewRedomatD
     //View Binding
     private ActivityLoginBinding mBiding;
     //---------------------------------
+
+    //Broadcast reciever
+    BroadcastReceiver broadcastReceiver = new BroadcastReciever();
     
 
     //Initializing activity variables
@@ -57,6 +64,10 @@ public class LoginActivity extends AppCompatActivity implements EnterNewRedomatD
     @Override
     public void onStart() {
         super.onStart();
+
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(broadcastReceiver, filter);
+
         // Check if user is already signed in, if so just transfer him to MainMenuActivity
         currentUser = mAuth.getCurrentUser();
         if(currentUser != null && currentUser.isEmailVerified()){
@@ -171,5 +182,12 @@ public class LoginActivity extends AppCompatActivity implements EnterNewRedomatD
         i.putExtra("pin", pin);
 
         startActivity(i);
+    }
+
+    @Override
+    public void onLocalVoiceInteractionStopped() {
+        super.onLocalVoiceInteractionStopped();
+
+        unregisterReceiver(broadcastReceiver);
     }
 }

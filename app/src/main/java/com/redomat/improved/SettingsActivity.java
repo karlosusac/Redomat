@@ -4,7 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.Preference;
 
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.redomat.improved.databinding.ActivityLoginBinding;
 import com.redomat.improved.databinding.ActivityRedomatAdminBinding;
 import com.redomat.improved.databinding.ActivitySettingsBinding;
+import com.redomat.improved.pojo.BroadcastReciever;
 
 import static com.redomat.improved.pojo.ProgressBar.showProgressDialog;
 
@@ -23,6 +27,9 @@ public class SettingsActivity extends AppCompatActivity{
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     private ActivitySettingsBinding mBinding;
+
+    //Broadcast reciever
+    BroadcastReceiver broadcastReceiver = new BroadcastReciever();
 
     //Preferences
     Preference settingsChangeNameAndLastname;
@@ -84,4 +91,19 @@ public class SettingsActivity extends AppCompatActivity{
     }
 
     // '\'Options menu -----------------------------------------------------------------------------
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(broadcastReceiver, filter);
+    }
+
+    @Override
+    public void onLocalVoiceInteractionStopped() {
+        super.onLocalVoiceInteractionStopped();
+
+        unregisterReceiver(broadcastReceiver);
+    }
 }

@@ -5,8 +5,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.BroadcastReceiver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -30,6 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.redomat.improved.databinding.ActivityLoginBinding;
 import com.redomat.improved.databinding.ActivityRedomatAdminBinding;
 import com.redomat.improved.pojo.AccountLine;
+import com.redomat.improved.pojo.BroadcastReciever;
 import com.redomat.improved.pojo.Line;
 import com.redomat.improved.pojo.ProgressBar;
 
@@ -82,6 +86,9 @@ public class RedomatAdmin extends AppCompatActivity implements PauseDialog.Pause
     private String pin;
     private Line redomat;
     //---------------------------
+
+    //Broadcast reciever
+    BroadcastReceiver broadcastReceiver = new BroadcastReciever();
 
     private long avgWaitingTime = 0;
     private boolean redomatHasJustStarted = true;
@@ -417,4 +424,19 @@ public class RedomatAdmin extends AppCompatActivity implements PauseDialog.Pause
     }
 
     // '\'Options menu -----------------------------------------------------------------------------
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(broadcastReceiver, filter);
+    }
+
+    @Override
+    public void onLocalVoiceInteractionStopped() {
+        super.onLocalVoiceInteractionStopped();
+
+        unregisterReceiver(broadcastReceiver);
+    }
 }

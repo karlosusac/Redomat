@@ -4,8 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -25,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.redomat.improved.databinding.ActivityLoginBinding;
 import com.redomat.improved.databinding.ActivityMainMenuBinding;
 import com.redomat.improved.pojo.AccountLine;
+import com.redomat.improved.pojo.BroadcastReciever;
 import com.redomat.improved.pojo.Line;
 
 import static com.redomat.improved.pojo.ProgressBar.closeProgressDialog;
@@ -58,12 +62,24 @@ public class MainMenuActivity extends AppCompatActivity implements MakeANewRedom
     private String pin;
     //---------------------
 
+    //Broadcast reciever
+    BroadcastReceiver broadcastReceiver = new BroadcastReciever();
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        unregisterReceiver(broadcastReceiver);
+    }
 
     @Override
     protected void onStart() {
         super.onStart();
         Log.d("Ovo", "onStart triggered");
         showProgressDialog(MainMenuActivity.this);
+
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(broadcastReceiver, filter);
 
         user.child("redomat").addValueEventListener(new ValueEventListener() {
             @Override
